@@ -21,7 +21,10 @@ public class PlayerController : MonoBehaviour {
 
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
-		Vector3 direction;
+        Vector3 direction = new Vector3(horizontal, 0f, vertical);
+        rb.velocity = direction * moveSpeed * Time.deltaTime;
+
+        /*
 		if (horizontal != 0f) {
 			direction = new Vector3 (horizontal, 0f, 0f);
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
@@ -29,6 +32,7 @@ public class PlayerController : MonoBehaviour {
 			direction = new Vector3 (0f, 0f, vertical);
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
 		}
+        */
 
 	}	
 }
