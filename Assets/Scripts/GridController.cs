@@ -7,11 +7,9 @@ public class GridController : MonoBehaviour {
 
 	public GameObject unbreakable;
 	public GameObject breakable;
-	private Quaternion quat;
 	private Vector3 spawnPosition = new Vector3(-6,1,-6f);
 	private Vector3 addingToX = new Vector3(1,0,0);
 	private Vector3 addingToZ = new Vector3(-13,0,1);
-	private int tempInt = 0;
 	[Range(2,8)]
 	public int boxLimiter;
 
@@ -50,7 +48,7 @@ public class GridController : MonoBehaviour {
 			for (int x = 0; x < grid.GetLength (0); x++) {
 				if (grid [x, z] == null && Random.Range(0,boxLimiter) == 1) {
 					if (IsPosAllowed (x, z)) {
-						grid [x, z] = (GameObject)Instantiate (breakable, spawnPosition, quat);
+						grid [x, z] = (GameObject)Instantiate (breakable, spawnPosition, Quaternion.identity);
 					}
 				}
 				spawnPosition += addingToX;
@@ -64,7 +62,7 @@ public class GridController : MonoBehaviour {
 		for (int z = 0; z < grid.GetLength (1); z++) {
 			for (int x = 0; x < grid.GetLength (0); x++) {
 				if (x % 2 == 1 && z % 2 == 1) {
-					grid [x, z] = (GameObject)Instantiate (unbreakable, spawnPosition, quat);
+					grid [x, z] = (GameObject)Instantiate (unbreakable, spawnPosition, Quaternion.identity);
 				}
 				spawnPosition += addingToX;
 			}
