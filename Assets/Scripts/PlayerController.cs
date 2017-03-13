@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
 	public int placedBombs;
 	public int fuse;
 	public int bombCount;
+	public int playerNumber;
 
 	void Start () {
 		placedBombs = 0;
@@ -44,26 +45,40 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-		float horizontal = Input.GetAxis("Horizontal");
-		float vertical = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical);
-        rb.velocity = direction * moveSpeed * Time.deltaTime;
+		if (playerNumber == 1) {
+			float horizontal = Input.GetAxis ("P1_Horizontal");
+			float vertical = Input.GetAxis ("P1_Vertical");
+			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
+			rb.velocity = direction * moveSpeed * Time.deltaTime;
 
-		if(Input.GetKeyDown(KeyCode.Space)){
-			if (placedBombs < bombCount) {
-				PlantBomb();
+			if (Input.GetButtonDown ("P1_Jump")) {
+				if (placedBombs < bombCount) {
+					PlantBomb ();
+				}
+			}
+		} else if (playerNumber == 2) {
+			float horizontal = Input.GetAxis ("P2_Horizontal");
+			float vertical = Input.GetAxis ("P2_Vertical");
+			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
+			rb.velocity = direction * moveSpeed * Time.deltaTime;
+
+			if (Input.GetButtonDown ("P2_Jump")) {
+				if (placedBombs < bombCount) {
+					PlantBomb ();
+				}
+			}
+		} else if (playerNumber == 3) {
+			float horizontal = Input.GetAxis ("P3_Horizontal");
+			float vertical = Input.GetAxis ("P3_Vertical");
+			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
+			rb.velocity = direction * moveSpeed * Time.deltaTime;
+
+			if (Input.GetButtonDown ("P3_Jump")) {
+				if (placedBombs < bombCount) {
+					PlantBomb ();
+				}
 			}
 		}
-
-        /*
-		if (horizontal != 0f) {
-			direction = new Vector3 (horizontal, 0f, 0f);
-			rb.velocity = direction * moveSpeed * Time.deltaTime;
-		} else if (vertical != 0f) {
-			direction = new Vector3 (0f, 0f, vertical);
-			rb.velocity = direction * moveSpeed * Time.deltaTime;
-		}
-        */
 
 	}	
 	// Detonate this bomb after fuse burns out and then reduce number of placed bombs
