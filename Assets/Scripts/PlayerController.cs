@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour {
 			float vertical = Input.GetAxis ("P1_Vertical");
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
-
+			transform.forward = rb.velocity;
 			if (Input.GetButtonDown ("P1_Jump")) {
 				if (placedBombs < bombCount) {
 					PlantBomb ();
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour {
 			float vertical = Input.GetAxis ("P2_Vertical");
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
-
+			transform.forward = rb.velocity;
 			if (Input.GetButtonDown ("P2_Jump")) {
 				if (placedBombs < bombCount) {
 					PlantBomb ();
@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour {
 			float vertical = Input.GetAxis ("P3_Vertical");
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
-
+			transform.forward = rb.velocity;
 			if (Input.GetButtonDown ("P3_Jump")) {
 				if (placedBombs < bombCount) {
 					PlantBomb ();
@@ -91,4 +91,13 @@ public class PlayerController : MonoBehaviour {
 	void ExpireBomb() {
 		placedBombs--;
 	}
+	 void PlaceBox(){
+        Vector3 boxPos = rb.transform.position + rb.transform.forward;
+ 
+ 
+        GameObject box = Instantiate(breakPrefab, boxPos, rb.rotation);
+ 
+ 
+    }
+	
 }
