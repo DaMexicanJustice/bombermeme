@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour {
 	public int fuse;
 	public int bombCount;
 	public int playerNumber;
+    public GameObject breakPrefab;
+    [Range(0,0.9f)]
+    public float controllerDeadZone;
 
 	void Start () {
 		placedBombs = 0;
@@ -51,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
 			transform.forward = rb.velocity;
-			if (Input.GetButtonDown ("P1_Jump")) {
+			if (Input.GetButtonDown ("P1_Placebomb")) {
 				if (placedBombs < bombCount) {
 					PlantBomb ();
 				}
@@ -62,7 +65,7 @@ public class PlayerController : MonoBehaviour {
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
 			transform.forward = rb.velocity;
-			if (Input.GetButtonDown ("P2_Jump")) {
+			if (Input.GetButtonDown ("P2_Placebomb")) {
 				if (placedBombs < bombCount) {
 					PlantBomb ();
 				}
@@ -70,10 +73,10 @@ public class PlayerController : MonoBehaviour {
 		} else if (playerNumber == 3) {
 			float horizontal = Input.GetAxis ("P3_Horizontal");
 			float vertical = Input.GetAxis ("P3_Vertical");
-			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
-			rb.velocity = direction * moveSpeed * Time.deltaTime;
+            Vector3 direction = new Vector3(horizontal, 0f, vertical);
+            rb.velocity = direction * moveSpeed * Time.deltaTime;
 			transform.forward = rb.velocity;
-			if (Input.GetButtonDown ("P3_Jump")) {
+			if (Input.GetButtonDown ("P3_Placebomb")) {
 				if (placedBombs < bombCount) {
 					PlantBomb ();
 				}
