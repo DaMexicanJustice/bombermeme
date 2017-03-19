@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject breakPrefab;
     [Range(0,0.9f)]
     public float controllerDeadZone;
+	private float timeStamp = 0;
 
 	void Start () {
 		placedBombs = 0;
@@ -59,6 +60,15 @@ public class PlayerController : MonoBehaviour {
 					PlantBomb ();
 				}
 			}
+			if (Input.GetButtonDown ("P1_Placeblock")) {
+
+				//BoxCooldown ();
+				//if (timeStamp <= Time.time) {
+
+					PlaceBox ();
+				
+
+			}
 		} else if (playerNumber == 2) {
 			float horizontal = Input.GetAxis ("P2_Horizontal");
 			float vertical = Input.GetAxis ("P2_Vertical");
@@ -69,6 +79,9 @@ public class PlayerController : MonoBehaviour {
 				if (placedBombs < bombCount) {
 					PlantBomb ();
 				}
+			}
+			if(Input.GetButtonDown("P2_Placeblock")){
+				PlaceBox ();
 			}
 		} else if (playerNumber == 3) {
 			float horizontal = Input.GetAxis ("P3_Horizontal");
@@ -81,6 +94,10 @@ public class PlayerController : MonoBehaviour {
 					PlantBomb ();
 				}
 			}
+			if(Input.GetButtonDown("P3_Placeblock")){
+				PlaceBox ();
+
+			}
 		}
 
 	}	
@@ -90,17 +107,23 @@ public class PlayerController : MonoBehaviour {
 		Destroy (bomb, fuse);
 		Invoke ("ExpireBomb", fuse);
 	}
+
 	// Decrement number of placed bombs
 	void ExpireBomb() {
 		placedBombs--;
 	}
+
+	 // Places a box prefab based off of the player object's position and rotation
 	 void PlaceBox(){
         Vector3 boxPos = rb.transform.position + rb.transform.forward;
- 
- 
-        GameObject box = Instantiate(breakPrefab, boxPos, rb.rotation);
- 
+		GameObject box = Instantiate (breakPrefab, boxPos, Quaternion.Euler (0, 0, 0));
  
     }
+
+	void BoxCooldown(){
+	
+		timeStamp = Time.time + 5;
+		
+	}
 	
 }
