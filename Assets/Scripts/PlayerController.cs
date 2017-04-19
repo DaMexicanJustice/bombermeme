@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour {
 
     public GridController gc;
 	private Rigidbody rb;
+	public AudioSource sfx;
+	public AudioClip explosion;
+
 	public float moveSpeed;
 	public GameObject bombPrefab;
 	public GameObject grid;
@@ -27,6 +30,7 @@ public class PlayerController : MonoBehaviour {
 	// Increment number of placed bombs, then calculate position for new bomb and place it, saving a reference to it.
 	// then call method to arm the bomb
 	void PlantBomb(){
+
 		placedBombs++;
 		Vector3 roundPos = rb.position;
 		roundPos = new Vector3(Mathf.Round(roundPos.x),Mathf.Round(roundPos.y),Mathf.Round(roundPos.z));
@@ -50,8 +54,6 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-
-		gc.SetPlayerPosition (gameObject);
 
 		if (playerNumber == 1) {
 			float horizontal = Input.GetAxis ("P1_Horizontal");
@@ -116,6 +118,9 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator ExpireBombAfter(GameObject bomb, float fuse) {
 		yield return new WaitForSeconds (fuse);
 		placedBombs--;
+		sfx.clip = explosion;
+		sfx.pitch = Random.Range (0.8f, 1.2f);
+		sfx.Play ();
 		gc.ExplodeBreakablesAtPos (bomb);
 	}
 

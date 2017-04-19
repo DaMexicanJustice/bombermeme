@@ -84,49 +84,33 @@ public class GridController : MonoBehaviour {
         int x = (int)bomb.transform.position.x;
         int z = (int)bomb.transform.position.z;
 
+		if (grid [x, z] != null && grid[x,z].gameObject.tag == "Player") {
+			Destroy (grid [x, z]);
+		}
+
 		if (x > 0) {
 			if (grid [x - 1, z] != null && grid [x - 1, z].gameObject.tag == "Breakable") {
 				Debug.Log ("Blowing up cube at pos: " + (x - 1) + ", " + z);
 				Destroy (grid [x - 1, z]);
-			} else if (grid [x - 1, z] != null && grid [x - 1, z].gameObject.tag == "Player") {
-				Destroy (grid [x - 1, z]);
-			}
+			} 
 		}
 		if (x < 12) {
 			if (grid[x + 1, z] != null && grid [x + 1, z].gameObject.tag == "Breakable") {
 				Debug.Log ("Blowing up cube at pos: " + (x+1) + ", " + z);
 				Destroy (grid [x + 1, z]);
-			} else if (grid [x + 1, z] != null && grid [x + 1, z].gameObject.tag == "Player") {
-				Destroy (grid [x + 1, z]);
-			}
+			} 
 		}
 		if (z > 0) {
 			if (grid[x, z - 1] != null && grid [x, z - 1].gameObject.tag == "Breakable") {
 				Debug.Log ("Blowing up cube at pos: " + x + ", " + (z-1));
 				Destroy (grid [x, z-1]);
-			} else if (grid [x, z - 1] != null && grid [x, z - 1].gameObject.tag == "Player") {
-				Destroy (grid [x, z - 1]);
-			}
+			} 
 		}
 		if (z < 12) {
 			if (grid[x, z + 1] != null && grid [x, z + 1].gameObject.tag == "Breakable") {
 				Debug.Log ("Blowing up cube at pos: " + x + ", " + (z+1));
 				Destroy (grid [x, z+1]);
-			} else if (grid [x, z + 1] != null && grid [x, z + 1].gameObject.tag == "Player") {
-				Destroy (grid [x, z + 1]);
-			}
+			} 
 		}
     }
-
-	public void SetPlayerPosition(GameObject player) {
-		int pX = (int)player.transform.position.x;
-		int pZ = (int)player.transform.position.z;
-
-		if (prevX != pX && prevZ != pZ) {
-			grid [pX, pZ] = player;
-			grid [prevX, prevZ] = null;
-			prevX = pX;
-			prevZ = pZ;
-		} 
-	}
 }
