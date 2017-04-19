@@ -30,7 +30,6 @@ public class BreakableScript : MonoBehaviour {
     {
         if (!isQuitting)
         {
-            Debug.Log("whats up this crates destroyed yo");
             if (Random.Range(0, 2) == 1)
             {
                 //powerup =  powerUps[Random.Range(0, powerUps.Length)];

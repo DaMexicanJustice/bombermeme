@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
+		gc.SetPlayerPosition (gameObject);
+
 		if (playerNumber == 1) {
 			float horizontal = Input.GetAxis ("P1_Horizontal");
 			float vertical = Input.GetAxis ("P1_Vertical");

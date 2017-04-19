@@ -11,6 +11,9 @@ public class GridController : MonoBehaviour {
 	private Vector3 addingToX = new Vector3(1,0,0);
 	private Vector3 addingToZ = new Vector3(-13,0,1);
 
+	private int prevX = 0;
+	private int prevZ = 0;
+
     [Range(2,8)]
 	public int boxLimiter;
 
@@ -82,8 +85,10 @@ public class GridController : MonoBehaviour {
         int z = (int)bomb.transform.position.z;
 
 		if (x > 0) {
-			if (grid[x - 1, z] != null && grid [x - 1, z].gameObject.tag == "Breakable") {
-				Debug.Log ("Blowing up cube at pos: " + (x-1) + ", " + z);
+			if (grid [x - 1, z] != null && grid [x - 1, z].gameObject.tag == "Breakable") {
+				Debug.Log ("Blowing up cube at pos: " + (x - 1) + ", " + z);
+				Destroy (grid [x - 1, z]);
+			} else if (grid [x - 1, z] != null && grid [x - 1, z].gameObject.tag == "Player") {
 				Destroy (grid [x - 1, z]);
 			}
 		}
@@ -91,20 +96,37 @@ public class GridController : MonoBehaviour {
 			if (grid[x + 1, z] != null && grid [x + 1, z].gameObject.tag == "Breakable") {
 				Debug.Log ("Blowing up cube at pos: " + (x+1) + ", " + z);
 				Destroy (grid [x + 1, z]);
+			} else if (grid [x + 1, z] != null && grid [x + 1, z].gameObject.tag == "Player") {
+				Destroy (grid [x + 1, z]);
 			}
 		}
 		if (z > 0) {
 			if (grid[x, z - 1] != null && grid [x, z - 1].gameObject.tag == "Breakable") {
 				Debug.Log ("Blowing up cube at pos: " + x + ", " + (z-1));
 				Destroy (grid [x, z-1]);
+			} else if (grid [x, z - 1] != null && grid [x, z - 1].gameObject.tag == "Player") {
+				Destroy (grid [x, z - 1]);
 			}
 		}
 		if (z < 12) {
 			if (grid[x, z + 1] != null && grid [x, z + 1].gameObject.tag == "Breakable") {
 				Debug.Log ("Blowing up cube at pos: " + x + ", " + (z+1));
 				Destroy (grid [x, z+1]);
+			} else if (grid [x, z + 1] != null && grid [x, z + 1].gameObject.tag == "Player") {
+				Destroy (grid [x, z + 1]);
 			}
 		}
     }
 
+	public void SetPlayerPosition(GameObject player) {
+		int pX = (int)player.transform.position.x;
+		int pZ = (int)player.transform.position.z;
+
+		if (prevX != pX && prevZ != pZ) {
+			grid [pX, pZ] = player;
+			grid [prevX, prevZ] = null;
+			prevX = pX;
+			prevZ = pZ;
+		} 
+	}
 }

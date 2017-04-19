@@ -2,10 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GridController.cs">
     <Files>
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="95" Column="6" />
-      <File FileName="Assets\Scripts\GridController.cs" Line="10" Column="51" />
-      <File FileName="Assets\Scripts\BombDetect.cs" Line="1" Column="1" />
-      <File FileName="Assets\Rotate.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GridController.cs" Line="92" Column="23" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="54" Column="37" />
+      <File FileName="Assets\Scripts\BreakableScript.cs" Line="33" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
