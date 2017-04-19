@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody rb;
 	public AudioSource sfx;
 	public AudioClip explosion;
+	public AudioClip pickup;
 
 	public float moveSpeed;
 	public GameObject bombPrefab;
@@ -124,56 +125,55 @@ public class PlayerController : MonoBehaviour {
 		gc.ExplodeBreakablesAtPos (bomb);
 	}
 
-	// Decrement number of placed bombs
-	void ExpireBomb() {
-		placedBombs--;
-	}
-
 	 // Places a box prefab based off of the player object's position and rotation
 	 void PlaceBox(){
         Vector3 boxPos = rb.transform.position + rb.transform.forward;
 		GameObject box = Instantiate (breakPrefab, boxPos, Quaternion.Euler (0, 0, 0));
- 
     }
 
 	void BoxCooldown(){
-	
 		timeStamp = Time.time + 5;
-		
 	}
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Power Up"))
-        {
-            other.gameObject.SetActive(false);
-        }
         if (other.gameObject.CompareTag("Speed Up"))
         {
             moveSpeed += 50;
             other.gameObject.SetActive(false);
+			PlayPickupSound ();
         }
         if (other.gameObject.CompareTag("Bomb Up"))
         {
             bombCount += 1;
             other.gameObject.SetActive(false);
+			PlayPickupSound ();
         }
         if (other.gameObject.CompareTag("Fire Up"))
         {
             other.gameObject.SetActive(false);
+			PlayPickupSound ();
         }
         if (other.gameObject.CompareTag("Max Fire"))
         {
             other.gameObject.SetActive(false);
+			PlayPickupSound ();
         }
         if (other.gameObject.CompareTag("Block Fill"))
         {
             other.gameObject.SetActive(false);
+			PlayPickupSound ();
         }
         if (other.gameObject.CompareTag("Breakthrough"))
         {
             other.gameObject.SetActive(false);
+			PlayPickupSound ();
         }
     }
+
+	void PlayPickupSound() {
+		sfx.clip = pickup;
+		sfx.Play ();
+	}
 
 }
