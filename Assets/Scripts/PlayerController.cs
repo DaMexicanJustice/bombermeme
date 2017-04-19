@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    public GridController gc;
 	private Rigidbody rb;
 	public float moveSpeed;
 	public GameObject bombPrefab;
@@ -30,7 +31,8 @@ public class PlayerController : MonoBehaviour {
 		Vector3 roundPos = rb.position;
 		roundPos = new Vector3(Mathf.Round(roundPos.x),Mathf.Round(roundPos.y),Mathf.Round(roundPos.z));
 		GameObject bomb = Instantiate (bombPrefab, roundPos, rb.rotation);
-		ArmBomb (bomb);
+
+        ArmBomb (bomb);
 
 		/*
 		Måske et Array over dem alle?
@@ -54,7 +56,7 @@ public class PlayerController : MonoBehaviour {
 			float vertical = Input.GetAxis ("P1_Vertical");
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
-			transform.forward = rb.velocity;
+			//transform.forward = rb.velocity;
 			if (Input.GetButtonDown ("P1_Placebomb")) {
 				if (placedBombs < bombCount) {
 					PlantBomb ();
@@ -74,8 +76,8 @@ public class PlayerController : MonoBehaviour {
 			float vertical = Input.GetAxis ("P2_Vertical");
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
-			transform.forward = rb.velocity;
-			if (Input.GetButtonDown ("P2_Placebomb")) {
+			//transform.forward = rb.velocity;
+            if (Input.GetButtonDown("P2_Placebomb")) {
 				if (placedBombs < bombCount) {
 					PlantBomb ();
 				}
@@ -88,7 +90,7 @@ public class PlayerController : MonoBehaviour {
 			float vertical = Input.GetAxis ("P3_Vertical");
             Vector3 direction = new Vector3(horizontal, 0f, vertical);
             rb.velocity = direction * moveSpeed * Time.deltaTime;
-			transform.forward = rb.velocity;
+			//transform.forward = rb.velocity;
 			if (Input.GetButtonDown ("P3_Placebomb")) {
 				if (placedBombs < bombCount) {
 					PlantBomb ();
@@ -102,10 +104,17 @@ public class PlayerController : MonoBehaviour {
 
 	}	
 	// Detonate this bomb after fuse burns out and then reduce number of placed bombs
-	// Invoke cannot take parameter so we split the activity into two methods
+	// Coroutine is used to schedule task
+	// we add 0.1 to the fuse, so the gameobject exists when accessed by grid controller. Else accesing removed element
 	void ArmBomb(GameObject bomb) {
-		Destroy (bomb, fuse);
-		Invoke ("ExpireBomb", fuse);
+		Destroy (bomb, fuse+0.06f);
+		StartCoroutine(ExpireBombAfter(bomb, fuse));
+	}
+
+	IEnumerator ExpireBombAfter(GameObject bomb, float fuse) {
+		yield return new WaitForSeconds (fuse);
+		placedBombs--;
+		gc.ExplodeBreakablesAtPos (bomb);
 	}
 
 	// Decrement number of placed bombs

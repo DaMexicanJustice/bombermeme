@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{8274CE46-9013-21AC-671F-E48BF10E44E6}</ProjectGuid>
+    <ProjectGuid>{1B50CF57-080B-7800-D6DB-FF737F6D41C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Rotate.cs" />
      <Compile Include="Assets\Scripts\BombDetect.cs" />
+     <Compile Include="Assets\Scripts\BreakableScript.cs" />
      <Compile Include="Assets\Scripts\GridController.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
  <Reference Include="UnityEngine.UI">
