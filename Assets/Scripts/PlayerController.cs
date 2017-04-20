@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
 	public AudioSource sfx;
 	public AudioClip explosion;
 	public AudioClip pickup;
+	public AudioClip walk;
 
 	public float moveSpeed;
 	public GameObject bombPrefab;
@@ -56,10 +57,15 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
+
+
 		if (playerNumber == 1) {
 			float horizontal = Input.GetAxis ("P1_Horizontal");
 			float vertical = Input.GetAxis ("P1_Vertical");
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
+			if (Mathf.Abs (horizontal) > 0f || Mathf.Abs (vertical) > 0f) {
+				PlayWalkSound ();
+			} 
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
 			//transform.forward = rb.velocity;
 			if (Input.GetButtonDown ("P1_Placebomb")) {
@@ -174,6 +180,15 @@ public class PlayerController : MonoBehaviour {
 	void PlayPickupSound() {
 		sfx.clip = pickup;
 		sfx.Play ();
+	}
+
+	void PlayWalkSound() {
+		if (sfx.isPlaying == false) {
+			sfx.clip = walk;
+			sfx.pitch = Random.Range (0.8f, 1.2f);
+			sfx.volume = 1f;
+			sfx.Play ();
+		}
 	}
 
 }

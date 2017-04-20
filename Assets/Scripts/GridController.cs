@@ -11,8 +11,9 @@ public class GridController : MonoBehaviour {
 	private Vector3 addingToX = new Vector3(1,0,0);
 	private Vector3 addingToZ = new Vector3(-13,0,1);
 
-	private int prevX = 0;
-	private int prevZ = 0;
+	public GameObject playerOne;
+	public GameObject playerTwo;
+	public GameObject playerThree;
 
     [Range(2,8)]
 	public int boxLimiter;
@@ -80,37 +81,104 @@ public class GridController : MonoBehaviour {
 		spawnPosition = new Vector3(0,1,0f);
 	}
 
+	bool PlayerDead(int player) {
+		switch (player) {
+		case 1:
+			return playerOne == null;
+			break;
+		case 2:
+			return playerTwo == null;
+			break;
+		case 3:
+			return playerThree == null;
+			break;
+		default:
+			return false;
+		}
+	}
+
+	int PlayerHit(int x, int z) {
+		// add 0.1f to keep players in expected range 1-12, so a player cannot stand on a tile but be counted as standing 1 below it
+		if (!PlayerDead(1)) {
+			int p1X = (int)(playerOne.transform.position.x + 0.1f);
+			int p1Z = (int)(playerOne.transform.position.z + 0.1f);
+			if (p1X == x && p1Z == z) {
+				return 1;
+			}
+		}
+		if (!PlayerDead(2)) {
+			int p2X = (int) (playerTwo.transform.position.x+0.1f);
+			int p2Z = (int) (playerTwo.transform.position.z+0.1f);
+			if (p2X == x && p2Z == z) {
+				return 2;
+			}
+		}
+		if (!PlayerDead(3)) {
+			int p3X = (int) (playerThree.transform.position.x+0.1f);
+			int p3Z = (int) (playerThree.transform.position.z+0.1f);
+			if (p3X == x && p3Z == z) {
+				return 3;
+			}
+		}
+		return 0;
+	}
+
+	void KillPlayer(int player) {
+		switch (player) {
+		case 1:
+			Destroy (playerOne);
+			break;
+		case 2:
+			Destroy (playerTwo);
+			break;
+		case 3:
+			Destroy (playerThree);
+			break;
+		default:
+			break;
+		}
+	}
+
     public void ExplodeBreakablesAtPos(GameObject bomb) {
         int x = (int)bomb.transform.position.x;
         int z = (int)bomb.transform.position.z;
 
-		if (grid [x, z] != null && grid[x,z].gameObject.tag == "Player") {
-			Destroy (grid [x, z]);
-		}
-
 		if (x > 0) {
 			if (grid [x - 1, z] != null && grid [x - 1, z].gameObject.tag == "Breakable") {
-				Debug.Log ("Blowing up cube at pos: " + (x - 1) + ", " + z);
 				Destroy (grid [x - 1, z]);
 			} 
+			if (PlayerHit (x - 1, z) != 0) {
+				KillPlayer (PlayerHit (x - 1, z));
+			}
+
 		}
+
 		if (x < 12) {
 			if (grid[x + 1, z] != null && grid [x + 1, z].gameObject.tag == "Breakable") {
-				Debug.Log ("Blowing up cube at pos: " + (x+1) + ", " + z);
 				Destroy (grid [x + 1, z]);
 			} 
+
+			if (PlayerHit (x + 1, z) != 0) {
+				KillPlayer (PlayerHit (x + 1, z));
+			}
 		}
+
 		if (z > 0) {
 			if (grid[x, z - 1] != null && grid [x, z - 1].gameObject.tag == "Breakable") {
-				Debug.Log ("Blowing up cube at pos: " + x + ", " + (z-1));
 				Destroy (grid [x, z-1]);
 			} 
+			if (PlayerHit (x, z-1) != 0) {
+				KillPlayer (PlayerHit (x, z-1));
+			}
 		}
+
 		if (z < 12) {
 			if (grid[x, z + 1] != null && grid [x, z + 1].gameObject.tag == "Breakable") {
-				Debug.Log ("Blowing up cube at pos: " + x + ", " + (z+1));
 				Destroy (grid [x, z+1]);
 			} 
+			if (PlayerHit (x, z+1) != 0) {
+				KillPlayer (PlayerHit (x, z+1));
+			}
 		}
     }
 }
