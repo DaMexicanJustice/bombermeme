@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour {
 	public AudioClip pickup;
 	public AudioClip walk;
 
+	private Vector3 boxDirection = new Vector3(0, 0, 0);
+	private float boxCooldown = 10f;
+	private float nextPlacement; 
+
 	public float moveSpeed;
 	public GameObject bombPrefab;
 	public GameObject grid;
@@ -26,6 +30,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Start () {
 		placedBombs = 0;
+
 		rb = GetComponent<Rigidbody> ();
 	}
 
@@ -63,6 +68,16 @@ public class PlayerController : MonoBehaviour {
 			float horizontal = Input.GetAxis ("P1_Horizontal");
 			float vertical = Input.GetAxis ("P1_Vertical");
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
+
+			if (Input.GetKeyDown (KeyCode.W)) {
+				boxDirection = new Vector3(0, 0, 1);
+			} else if (Input.GetKeyDown (KeyCode.S)) {
+				boxDirection = new Vector3 (0, 0, -1);
+			} else if (Input.GetKeyDown (KeyCode.A)) {
+				boxDirection = new Vector3 (-1, 0, 0);
+			} else if (Input.GetKeyDown (KeyCode.D)) {
+			    boxDirection = new Vector3 (1, 0, 0);
+			}
 			if (Mathf.Abs (horizontal) > 0f || Mathf.Abs (vertical) > 0f) {
 				PlayWalkSound ();
 			} 
@@ -73,19 +88,23 @@ public class PlayerController : MonoBehaviour {
 					PlantBomb ();
 				}
 			}
-			if (Input.GetButtonDown ("P1_Placeblock")) {
-
-				//BoxCooldown ();
-				//if (timeStamp <= Time.time) {
-
-					PlaceBox ();
-				
-
+			if (Input.GetButtonDown ("P1_Placeblock") & Time.time > nextPlacement) {
+				nextPlacement = Time.time + boxCooldown; 
+				PlaceBox (boxDirection);
 			}
 		} else if (playerNumber == 2) {
 			float horizontal = Input.GetAxis ("P2_Horizontal");
 			float vertical = Input.GetAxis ("P2_Vertical");
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
+			if (Input.GetKeyDown (KeyCode.UpArrow)) {
+				boxDirection = new Vector3(0, 0, 1);
+			} else if (Input.GetKeyDown (KeyCode.DownArrow)) {
+				boxDirection = new Vector3 (0, 0, -1);
+			} else if (Input.GetKeyDown (KeyCode.LeftArrow)) {
+				boxDirection = new Vector3 (-1, 0, 0);
+			} else if (Input.GetKeyDown (KeyCode.RightArrow)) {
+				boxDirection = new Vector3 (1, 0, 0);
+			}
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
 			//transform.forward = rb.velocity;
             if (Input.GetButtonDown("P2_Placebomb")) {
@@ -93,13 +112,15 @@ public class PlayerController : MonoBehaviour {
 					PlantBomb ();
 				}
 			}
-			if(Input.GetButtonDown("P2_Placeblock")){
-				PlaceBox ();
+			if (Input.GetButtonDown ("P2_Placeblock") & Time.time > nextPlacement) {
+				nextPlacement = Time.time + boxCooldown; 
+				PlaceBox (boxDirection);
 			}
 		} else if (playerNumber == 3) {
 			float horizontal = Input.GetAxis ("P3_Horizontal");
 			float vertical = Input.GetAxis ("P3_Vertical");
             Vector3 direction = new Vector3(horizontal, 0f, vertical);
+			Vector3 boxDirection = new Vector3 (0, 0, 1);
             rb.velocity = direction * moveSpeed * Time.deltaTime;
 			//transform.forward = rb.velocity;
 			if (Input.GetButtonDown ("P3_Placebomb")) {
@@ -107,9 +128,9 @@ public class PlayerController : MonoBehaviour {
 					PlantBomb ();
 				}
 			}
-			if(Input.GetButtonDown("P3_Placeblock")){
-				PlaceBox ();
-
+			if (Input.GetButtonDown ("P3_Placeblock") & Time.time > nextPlacement) {
+				nextPlacement = Time.time + boxCooldown; 
+				PlaceBox (boxDirection);
 			}
 		}
 
@@ -132,9 +153,11 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	 // Places a box prefab based off of the player object's position and rotation
-	 void PlaceBox(){
-        Vector3 boxPos = rb.transform.position + rb.transform.forward;
+	 void PlaceBox(Vector3 boxDirection){
+		Vector3 boxPos = rb.transform.position + boxDirection;
+		boxPos = new Vector3 (Mathf.Round (boxPos.x), Mathf.Round (boxPos.y), Mathf.Round (boxPos.z));
 		GameObject box = Instantiate (breakPrefab, boxPos, Quaternion.Euler (0, 0, 0));
+
     }
 
 	void BoxCooldown(){
