@@ -237,4 +237,17 @@ public class GridController : MonoBehaviour {
         safeRight = true;
         safeUp = true;
     }
+
+	public bool IsAllowedPosition(float x, float z) {
+		// Edge detection
+		return (x > 0 && x < 12) && (z > 0 && z < 12);
+	}
+
+	public void PlaceBoxAtCoords(GameObject box) {
+		int x = (int) box.transform.position.x;
+		int z = (int)box.transform.position.z;
+		if (grid [x, z] == null) {
+			grid [x, z] = box;
+		}
+	}
 }

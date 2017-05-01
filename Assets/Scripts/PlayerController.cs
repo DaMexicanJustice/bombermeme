@@ -99,7 +99,6 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 			if (Input.GetButtonDown ("P1_Placeblock") & Time.time > nextPlacement) {
-				nextPlacement = Time.time + boxCooldown; 
 				PlaceBox (boxDirection);
 			}
 		} else if (playerNumber == 2) {
@@ -123,7 +122,6 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 			if (Input.GetButtonDown ("P2_Placeblock") & Time.time > nextPlacement) {
-				nextPlacement = Time.time + boxCooldown; 
 				PlaceBox (boxDirection);
 			}
 		} else if (playerNumber == 3) {
@@ -139,7 +137,6 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 			if (Input.GetButtonDown ("P3_Placeblock") & Time.time > nextPlacement) {
-				nextPlacement = Time.time + boxCooldown; 
 				PlaceBox (boxDirection);
 			}
 		}
@@ -166,8 +163,11 @@ public class PlayerController : MonoBehaviour {
 	 void PlaceBox(Vector3 boxDirection){
 		Vector3 boxPos = rb.transform.position + boxDirection;
 		boxPos = new Vector3 (Mathf.Round (boxPos.x), Mathf.Round (boxPos.y), Mathf.Round (boxPos.z));
-		GameObject box = Instantiate (breakPrefab, boxPos, Quaternion.Euler (0, 0, 0));
-
+		if (gc.IsAllowedPosition (boxPos.x, boxPos.y)) {
+			GameObject box = Instantiate (breakPrefab, boxPos, Quaternion.Euler (0, 0, 0));
+			gc.PlaceBoxAtCoords (box);
+			nextPlacement = Time.time + boxCooldown; 
+		}
     }
 
 	void BoxCooldown(){
