@@ -12,6 +12,13 @@ public class PlayerController : MonoBehaviour {
 	public AudioClip pickup;
 	public AudioClip walk;
 
+    public bool breakthrough;
+    public float firePower;
+    public float blockTimer;
+    private Vector3 boxDirection = new Vector3(0, 0, 0);
+	private float boxCooldown = 10f;
+	private float nextPlacement; 
+
 	public float moveSpeed;
 	public GameObject bombPrefab;
 	public GameObject grid;
@@ -25,8 +32,13 @@ public class PlayerController : MonoBehaviour {
 	private float timeStamp = 0;
 
 	void Start () {
-		placedBombs = 0;
-		rb = GetComponent<Rigidbody> ();
+        placedBombs = 0;
+        firePower = 1;
+        moveSpeed = 200;
+        bombCount = 1;
+        blockTimer = 0;
+        breakthrough = false;
+        rb = GetComponent<Rigidbody> ();
 	}
 
 	// Increment number of placed bombs, then calculate position for new bomb and place it, saving a reference to it.
@@ -57,12 +69,25 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
+        if (blockTimer > 0)
+        {
+            blockTimer--;
+        }
 
-
-		if (playerNumber == 1) {
+        if (playerNumber == 1) {
 			float horizontal = Input.GetAxis ("P1_Horizontal");
 			float vertical = Input.GetAxis ("P1_Vertical");
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
+
+			if (Input.GetKeyDown (KeyCode.W)) {
+				boxDirection = new Vector3(0, 0, 1);
+			} else if (Input.GetKeyDown (KeyCode.S)) {
+				boxDirection = new Vector3 (0, 0, -1);
+			} else if (Input.GetKeyDown (KeyCode.A)) {
+				boxDirection = new Vector3 (-1, 0, 0);
+			} else if (Input.GetKeyDown (KeyCode.D)) {
+			    boxDirection = new Vector3 (1, 0, 0);
+			}
 			if (Mathf.Abs (horizontal) > 0f || Mathf.Abs (vertical) > 0f) {
 				PlayWalkSound ();
 			} 
@@ -73,19 +98,23 @@ public class PlayerController : MonoBehaviour {
 					PlantBomb ();
 				}
 			}
-			if (Input.GetButtonDown ("P1_Placeblock")) {
-
-				//BoxCooldown ();
-				//if (timeStamp <= Time.time) {
-
-					PlaceBox ();
-				
-
+			if (Input.GetButtonDown ("P1_Placeblock") & Time.time > nextPlacement) {
+				nextPlacement = Time.time + boxCooldown; 
+				PlaceBox (boxDirection);
 			}
 		} else if (playerNumber == 2) {
 			float horizontal = Input.GetAxis ("P2_Horizontal");
 			float vertical = Input.GetAxis ("P2_Vertical");
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
+			if (Input.GetKeyDown (KeyCode.UpArrow)) {
+				boxDirection = new Vector3(0, 0, 1);
+			} else if (Input.GetKeyDown (KeyCode.DownArrow)) {
+				boxDirection = new Vector3 (0, 0, -1);
+			} else if (Input.GetKeyDown (KeyCode.LeftArrow)) {
+				boxDirection = new Vector3 (-1, 0, 0);
+			} else if (Input.GetKeyDown (KeyCode.RightArrow)) {
+				boxDirection = new Vector3 (1, 0, 0);
+			}
 			rb.velocity = direction * moveSpeed * Time.deltaTime;
 			//transform.forward = rb.velocity;
             if (Input.GetButtonDown("P2_Placebomb")) {
@@ -93,13 +122,15 @@ public class PlayerController : MonoBehaviour {
 					PlantBomb ();
 				}
 			}
-			if(Input.GetButtonDown("P2_Placeblock")){
-				PlaceBox ();
+			if (Input.GetButtonDown ("P2_Placeblock") & Time.time > nextPlacement) {
+				nextPlacement = Time.time + boxCooldown; 
+				PlaceBox (boxDirection);
 			}
 		} else if (playerNumber == 3) {
 			float horizontal = Input.GetAxis ("P3_Horizontal");
 			float vertical = Input.GetAxis ("P3_Vertical");
             Vector3 direction = new Vector3(horizontal, 0f, vertical);
+			Vector3 boxDirection = new Vector3 (0, 0, 1);
             rb.velocity = direction * moveSpeed * Time.deltaTime;
 			//transform.forward = rb.velocity;
 			if (Input.GetButtonDown ("P3_Placebomb")) {
@@ -107,9 +138,9 @@ public class PlayerController : MonoBehaviour {
 					PlantBomb ();
 				}
 			}
-			if(Input.GetButtonDown("P3_Placeblock")){
-				PlaceBox ();
-
+			if (Input.GetButtonDown ("P3_Placeblock") & Time.time > nextPlacement) {
+				nextPlacement = Time.time + boxCooldown; 
+				PlaceBox (boxDirection);
 			}
 		}
 
@@ -128,13 +159,15 @@ public class PlayerController : MonoBehaviour {
 		sfx.clip = explosion;
 		sfx.pitch = Random.Range (0.8f, 1.2f);
 		sfx.Play ();
-		gc.ExplodeBreakablesAtPos (bomb);
+		gc.ExplodeBreakablesAtPos (bomb, firePower, breakthrough);
 	}
 
 	 // Places a box prefab based off of the player object's position and rotation
-	 void PlaceBox(){
-        Vector3 boxPos = rb.transform.position + rb.transform.forward;
+	 void PlaceBox(Vector3 boxDirection){
+		Vector3 boxPos = rb.transform.position + boxDirection;
+		boxPos = new Vector3 (Mathf.Round (boxPos.x), Mathf.Round (boxPos.y), Mathf.Round (boxPos.z));
 		GameObject box = Instantiate (breakPrefab, boxPos, Quaternion.Euler (0, 0, 0));
+
     }
 
 	void BoxCooldown(){
@@ -147,37 +180,47 @@ public class PlayerController : MonoBehaviour {
         {
             moveSpeed += 50;
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
         if (other.gameObject.CompareTag("Bomb Up"))
         {
             bombCount += 1;
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
         if (other.gameObject.CompareTag("Fire Up"))
         {
+            if (firePower < 8)
+            {
+                firePower++;
+            }
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
         if (other.gameObject.CompareTag("Max Fire"))
         {
+            if (firePower < 8)
+            {
+                firePower = 8;
+            }
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
         if (other.gameObject.CompareTag("Block Fill"))
         {
+            blockTimer = 0;
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
         if (other.gameObject.CompareTag("Breakthrough"))
         {
+            breakthrough = true;
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
     }
 
-	void PlayPickupSound() {
+    void PlayPickupSound() {
 		sfx.clip = pickup;
 		sfx.Play ();
 	}
