@@ -12,7 +12,10 @@ public class PlayerController : MonoBehaviour {
 	public AudioClip pickup;
 	public AudioClip walk;
 
-	private Vector3 boxDirection = new Vector3(0, 0, 0);
+    public bool breakthrough;
+    public float firePower;
+    public float blockTimer;
+    private Vector3 boxDirection = new Vector3(0, 0, 0);
 	private float boxCooldown = 10f;
 	private float nextPlacement; 
 
@@ -29,9 +32,13 @@ public class PlayerController : MonoBehaviour {
 	private float timeStamp = 0;
 
 	void Start () {
-		placedBombs = 0;
-
-		rb = GetComponent<Rigidbody> ();
+        placedBombs = 0;
+        firePower = 1;
+        moveSpeed = 200;
+        bombCount = 1;
+        blockTimer = 0;
+        breakthrough = false;
+        rb = GetComponent<Rigidbody> ();
 	}
 
 	// Increment number of placed bombs, then calculate position for new bomb and place it, saving a reference to it.
@@ -62,9 +69,12 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
+        if (blockTimer > 0)
+        {
+            blockTimer--;
+        }
 
-
-		if (playerNumber == 1) {
+        if (playerNumber == 1) {
 			float horizontal = Input.GetAxis ("P1_Horizontal");
 			float vertical = Input.GetAxis ("P1_Vertical");
 			Vector3 direction = new Vector3 (horizontal, 0f, vertical);
@@ -149,7 +159,7 @@ public class PlayerController : MonoBehaviour {
 		sfx.clip = explosion;
 		sfx.pitch = Random.Range (0.8f, 1.2f);
 		sfx.Play ();
-		gc.ExplodeBreakablesAtPos (bomb);
+		gc.ExplodeBreakablesAtPos (bomb, firePower, breakthrough);
 	}
 
 	 // Places a box prefab based off of the player object's position and rotation
@@ -170,37 +180,47 @@ public class PlayerController : MonoBehaviour {
         {
             moveSpeed += 50;
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
         if (other.gameObject.CompareTag("Bomb Up"))
         {
             bombCount += 1;
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
         if (other.gameObject.CompareTag("Fire Up"))
         {
+            if (firePower < 8)
+            {
+                firePower++;
+            }
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
         if (other.gameObject.CompareTag("Max Fire"))
         {
+            if (firePower < 8)
+            {
+                firePower = 8;
+            }
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
         if (other.gameObject.CompareTag("Block Fill"))
         {
+            blockTimer = 0;
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
         if (other.gameObject.CompareTag("Breakthrough"))
         {
+            breakthrough = true;
             other.gameObject.SetActive(false);
-			PlayPickupSound ();
+            PlayPickupSound();
         }
     }
 
-	void PlayPickupSound() {
+    void PlayPickupSound() {
 		sfx.clip = pickup;
 		sfx.Play ();
 	}

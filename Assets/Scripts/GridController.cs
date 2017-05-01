@@ -15,6 +15,11 @@ public class GridController : MonoBehaviour {
 	public GameObject playerTwo;
 	public GameObject playerThree;
 
+    bool safeLeft = true;
+    bool safeRight = true;
+    bool safeUp = true;
+    bool safeDown = true;
+
     [Range(2,8)]
 	public int boxLimiter;
 
@@ -139,46 +144,97 @@ public class GridController : MonoBehaviour {
 		}
 	}
 
-    public void ExplodeBreakablesAtPos(GameObject bomb) {
+    public void ExplodeBreakablesAtPos(GameObject bomb, float firePower, bool breakthrough)
+    {
         int x = (int)bomb.transform.position.x;
         int z = (int)bomb.transform.position.z;
+        for (int i = 0; i <= firePower; i++)
+        {
+            if (x > 0 && safeLeft == true)
+            {
+                if (grid[x - i, z] != null && grid[x - i, z].gameObject.tag == "Breakable")
+                {
+                    Destroy(grid[x - i, z]);
+                    if (breakthrough == false)
+                    {
+                        safeLeft = false;
+                    }
+                }
+                if (grid[x - i, z] != null && grid[x - i, z].gameObject.tag == "Unbreakable")
+                {
+                    safeLeft = false;
+                }
+                if (PlayerHit(x - i, z) != 0)
+                {
+                    KillPlayer(PlayerHit(x - 1, z));
+                }
 
-		if (x > 0) {
-			if (grid [x - 1, z] != null && grid [x - 1, z].gameObject.tag == "Breakable") {
-				Destroy (grid [x - 1, z]);
-			} 
-			if (PlayerHit (x - 1, z) != 0) {
-				KillPlayer (PlayerHit (x - 1, z));
-			}
+            }
 
-		}
+            if (x < 12 == safeRight == true)
+            {
+                if (grid[x + i, z] != null && grid[x + i, z].gameObject.tag == "Breakable")
+                {
+                    Destroy(grid[x + i, z]);
+                    if (breakthrough == false)
+                    {
+                        safeRight = false;
+                    }
+                }
+                if (grid[x + i, z] != null && grid[x + i, z].gameObject.tag == "Unbreakable")
+                {
+                    safeLeft = false;
+                }
 
-		if (x < 12) {
-			if (grid[x + 1, z] != null && grid [x + 1, z].gameObject.tag == "Breakable") {
-				Destroy (grid [x + 1, z]);
-			} 
+                    if (PlayerHit(x + i, z) != 0)
+                {
+                    KillPlayer(PlayerHit(x + i, z));
+                }
+            }
 
-			if (PlayerHit (x + 1, z) != 0) {
-				KillPlayer (PlayerHit (x + 1, z));
-			}
-		}
+            if (z > 0 && safeUp == true)
+            {
+                if (grid[x, z - i] != null && grid[x, z - i].gameObject.tag == "Breakable")
+                {
+                    Destroy(grid[x, z - i]);
+                    if (breakthrough == false)
+                    {
+                        safeUp = false;
+                    }
+                }
+                if (grid[x, z - i] != null && grid[x, z - i].gameObject.tag == "Unbreakable")
+                {
+                    safeUp = false;
+                }
+                if (PlayerHit(x, z - 1) != 0)
+                {
+                    KillPlayer(PlayerHit(x, z - i));
+                }
+            }
 
-		if (z > 0) {
-			if (grid[x, z - 1] != null && grid [x, z - 1].gameObject.tag == "Breakable") {
-				Destroy (grid [x, z-1]);
-			} 
-			if (PlayerHit (x, z-1) != 0) {
-				KillPlayer (PlayerHit (x, z-1));
-			}
-		}
-
-		if (z < 12) {
-			if (grid[x, z + 1] != null && grid [x, z + 1].gameObject.tag == "Breakable") {
-				Destroy (grid [x, z+1]);
-			} 
-			if (PlayerHit (x, z+1) != 0) {
-				KillPlayer (PlayerHit (x, z+1));
-			}
-		}
+            if (z < 12 == safeDown == true)
+            {
+                if (grid[x, z + i] != null && grid[x, z + i].gameObject.tag == "Breakable")
+                {
+                    Destroy(grid[x, z + i]);
+                    if (breakthrough == false)
+                    {
+                        safeDown = false;
+                    }
+                }
+                if (grid[x, z + i] != null && grid[x, z + i].gameObject.tag == "Unbreakable")
+                {
+                    safeDown = false;
+                }
+                if (PlayerHit(x, z + i) != 0)
+                {
+                    KillPlayer(PlayerHit(x, z + i));
+                }
+            }
+        }
+        safeDown = true;
+        safeLeft = true;
+        safeRight = true;
+        safeUp = true;
     }
 }
