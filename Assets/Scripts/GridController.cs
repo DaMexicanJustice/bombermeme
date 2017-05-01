@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GridController : MonoBehaviour {
 
-
+	public GameObject explosion;
 	public GameObject unbreakable;
 	public GameObject breakable;
 	private Vector3 spawnPosition = new Vector3(0,1,0);
@@ -152,6 +152,7 @@ public class GridController : MonoBehaviour {
         {
             if (x > 0 && safeLeft == true)
             {
+				CreateExplosionAt (x - i, z);
                 if (grid[x - i, z] != null && grid[x - i, z].gameObject.tag == "Breakable")
                 {
                     Destroy(grid[x - i, z]);
@@ -171,10 +172,12 @@ public class GridController : MonoBehaviour {
 
             }
 
-            if (x < 12 == safeRight == true)
+            if (x < 12 && safeRight == true)
             {
+				CreateExplosionAt (x + i, z);
                 if (grid[x + i, z] != null && grid[x + i, z].gameObject.tag == "Breakable")
                 {
+
                     Destroy(grid[x + i, z]);
                     if (breakthrough == false)
                     {
@@ -194,8 +197,10 @@ public class GridController : MonoBehaviour {
 
             if (z > 0 && safeUp == true)
             {
+				CreateExplosionAt (x, z - i);
                 if (grid[x, z - i] != null && grid[x, z - i].gameObject.tag == "Breakable")
                 {
+					
                     Destroy(grid[x, z - i]);
                     if (breakthrough == false)
                     {
@@ -212,8 +217,9 @@ public class GridController : MonoBehaviour {
                 }
             }
 
-            if (z < 12 == safeDown == true)
+            if (z < 12 && safeDown == true)
             {
+				CreateExplosionAt (x, z + i);
                 if (grid[x, z + i] != null && grid[x, z + i].gameObject.tag == "Breakable")
                 {
                     Destroy(grid[x, z + i]);
@@ -249,5 +255,10 @@ public class GridController : MonoBehaviour {
 		if (grid [x, z] == null) {
 			grid [x, z] = box;
 		}
+	}
+
+	public void CreateExplosionAt(float x, float z) {
+		Vector3 pos = new Vector3 (x, 0, z);
+		Instantiate (explosion, pos, Quaternion.identity);
 	}
 }
