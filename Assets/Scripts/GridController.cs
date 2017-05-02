@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GridController : MonoBehaviour {
 
+	public RoundController rc;
 	public GameObject explosion;
 	public GameObject unbreakable;
 	public GameObject breakable;
@@ -86,7 +87,7 @@ public class GridController : MonoBehaviour {
 		spawnPosition = new Vector3(0,1,0f);
 	}
 
-	bool PlayerDead(int player) {
+	public bool PlayerDead(int player) {
 		switch (player) {
 		case 1:
 			return playerOne == null;
@@ -132,12 +133,15 @@ public class GridController : MonoBehaviour {
 		switch (player) {
 		case 1:
 			Destroy (playerOne);
+			rc.RemovePlayer ();
 			break;
 		case 2:
 			Destroy (playerTwo);
+			rc.RemovePlayer ();
 			break;
 		case 3:
 			Destroy (playerThree);
+			rc.RemovePlayer ();
 			break;
 		default:
 			break;
