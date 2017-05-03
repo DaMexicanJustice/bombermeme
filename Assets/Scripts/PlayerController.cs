@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+	public GameObject bContainer;
+
     public GridController gc;
 	private Rigidbody rb;
 	public AudioSource sfx;
@@ -49,6 +51,7 @@ public class PlayerController : MonoBehaviour {
 		Vector3 roundPos = rb.position;
 		roundPos = new Vector3(Mathf.Round(roundPos.x),Mathf.Round(roundPos.y),Mathf.Round(roundPos.z));
 		GameObject bomb = Instantiate (bombPrefab, roundPos, rb.rotation);
+		bomb.transform.parent = bContainer.transform;
 
         ArmBomb (bomb);
 

@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class GridController : MonoBehaviour {
 
+	public RoundController rc;
 	public GameObject explosion;
 	public GameObject unbreakable;
 	public GameObject breakable;
 	private Vector3 spawnPosition = new Vector3(0,1,0);
 	private Vector3 addingToX = new Vector3(1,0,0);
 	private Vector3 addingToZ = new Vector3(-13,0,1);
+
+	public GameObject bContainer;
+	public GameObject ubContainer;
 
 	public GameObject playerOne;
 	public GameObject playerTwo;
@@ -59,7 +63,9 @@ public class GridController : MonoBehaviour {
 				if (grid [x, z] == null && Random.Range(0,boxLimiter) == 1) {
 					if (IsPosAllowed (x, z)) {
 						
-						grid [x, z] = (GameObject)Instantiate (breakable, spawnPosition, Quaternion.identity);
+						GameObject b = (GameObject)Instantiate (breakable, spawnPosition, Quaternion.identity);
+						grid [x, z] = b;
+						b.transform.parent = bContainer.transform;
 					}
 				}
 				spawnPosition += addingToX;
@@ -74,7 +80,9 @@ public class GridController : MonoBehaviour {
 			for (int x = 0; x < grid.GetLength (0); x++) {
 				if (x % 2 == 1 && z % 2 == 1) {
 
-					grid [x, z] = (GameObject)Instantiate (unbreakable, spawnPosition, Quaternion.identity);
+					GameObject b = (GameObject)Instantiate (unbreakable, spawnPosition, Quaternion.identity);
+					grid [x, z] = b;
+					b.transform.parent = ubContainer.transform;
 				}
 				spawnPosition += addingToX;
 			}
@@ -86,7 +94,7 @@ public class GridController : MonoBehaviour {
 		spawnPosition = new Vector3(0,1,0f);
 	}
 
-	bool PlayerDead(int player) {
+	public bool PlayerDead(int player) {
 		switch (player) {
 		case 1:
 			return playerOne == null;
@@ -132,12 +140,15 @@ public class GridController : MonoBehaviour {
 		switch (player) {
 		case 1:
 			Destroy (playerOne);
+			rc.RemovePlayer ();
 			break;
 		case 2:
 			Destroy (playerTwo);
+			rc.RemovePlayer ();
 			break;
 		case 3:
 			Destroy (playerThree);
+			rc.RemovePlayer ();
 			break;
 		default:
 			break;
@@ -254,6 +265,7 @@ public class GridController : MonoBehaviour {
 		int z = (int)box.transform.position.z;
 		if (grid [x, z] == null) {
 			grid [x, z] = box;
+			box.transform.parent = bContainer.transform;
 		}
 	}
 
@@ -261,4 +273,9 @@ public class GridController : MonoBehaviour {
 		Vector3 pos = new Vector3 (x, 0, z);
 		Instantiate (explosion, pos, Quaternion.identity);
 	}
+
+	public GameObject[,] GetGrid() {
+		return grid;
+	}
+		
 }

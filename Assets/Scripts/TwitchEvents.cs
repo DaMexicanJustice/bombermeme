@@ -14,6 +14,7 @@ public class TwitchEvents : MonoBehaviour
 	public InputField MessageText;
 
 	public GameObject gameMaster;
+	private GameEvents ge;
 
 	void Start()
 	{
@@ -23,6 +24,8 @@ public class TwitchEvents : MonoBehaviour
 		TwitchIrc.Instance.OnUserJoined += OnUserJoined;
 		TwitchIrc.Instance.OnServerMessage += OnServerMessage;
 		TwitchIrc.Instance.OnExceptionThrown += OnExceptionThrown;
+
+		ge = gameMaster.GetComponent<GameEvents> ();
 	}
 
 	public void Connect()
@@ -66,10 +69,22 @@ public class TwitchEvents : MonoBehaviour
 
 		switch (msg) {
 		case "!bomb":
-			Debug.Log ("BOMBS EVERYWHERE!?");
+			ge.StartBombEvent ();
 			break;
 		case "!kappa":
-			Debug.Log ("Kappa me up, Scottie");
+			ge.StartKappaEvent ();
+			break;
+		case "!upgrademusic":
+			ge.UpgradeMusic ();
+			break;
+		case "!swiftrage":
+			ge.StartSwiftRageEvent ();
+			break;
+		case "!acid":
+			ge.StartLightEvent ();
+			break;
+		case "!rotate":
+			ge.RotateEvent ();
 			break;
 		default:
 			break;
