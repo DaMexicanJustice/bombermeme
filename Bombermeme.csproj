@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3F3BFF15-8AE9-53FD-D38A-86CA981A7B60}</ProjectGuid>
+    <ProjectGuid>{976C1175-D81C-2C8C-A193-1AD47784D3E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -75,11 +75,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Rotate.cs" />
+    <Compile Include="Assets\Explosion System\Demo\Script (for Demo)\ExplosionControl.cs" />
+    <Compile Include="Assets\Explosion System\Scripts\GraphicExplosion.cs" />
+    <Compile Include="Assets\Explosion System\Scripts\PhysicalExplosion.cs" />
+    <Compile Include="Assets\Explosion System\Scripts\light_control.cs" />
+    <Compile Include="Assets\GameEvents.cs" />
+    <Compile Include="Assets\KappaEvent.cs" />
     <Compile Include="Assets\Scripts\BombDetect.cs" />
     <Compile Include="Assets\Scripts\BreakableScript.cs" />
     <Compile Include="Assets\Scripts\GridController.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Rotate.cs" />
+    <Compile Include="Assets\Scripts\TwitchEvents.cs" />
+    <Compile Include="Assets\TwitchIRC\Example\Scripts\TwitchIrcExample.cs" />
+    <Compile Include="Assets\TwitchIRC\Scripts\EventArguments.cs" />
+    <Compile Include="Assets\TwitchIRC\Scripts\TwitchIrc.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Explosion System\Shader\Exposion.shader" />
+    <None Include="Assets\TwitchIRC\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

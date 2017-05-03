@@ -10,7 +10,7 @@ public class GameEvents : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		StartKappaEvent ();
+		
 	}
 	
 	// Update is called once per frame
