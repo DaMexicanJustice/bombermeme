@@ -38,14 +38,17 @@ public class TwitchEvents : MonoBehaviour
 	}
 
 	//Send message
-	public void MessageSend()
+	public void MessageSend(String msg)
 	{
+		/*
 		if (String.IsNullOrEmpty(MessageText.text))
 			return;
 
 		TwitchIrc.Instance.Message(MessageText.text);
 		ChatText.text += "<b>" + TwitchIrc.Instance.Username + "</b>: " + MessageText.text +"\n";
-		MessageText.text = "";
+		MessageText.text = ""; */
+		TwitchIrc.Instance.Message(msg);
+
 	}
 
 	//Open URL
@@ -85,6 +88,9 @@ public class TwitchEvents : MonoBehaviour
 			break;
 		case "!rotate":
 			ge.RotateEvent ();
+			break;
+		case "!commands":
+			MessageSend ("!bomb, !kappa, !upgrademusic, !swiftrage, !acid, !rotate");
 			break;
 		default:
 			break;
