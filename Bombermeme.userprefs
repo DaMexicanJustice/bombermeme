@@ -1,6 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameEvents.cs">
+    <Files>
+      <File FileName="Assets\Scripts\GridController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameEvents.cs" Line="37" Column="17" />
+      <File FileName="Assets\Scripts\TwitchEvents.cs" Line="93" Column="1" />
+      <File FileName="Assets\EZ Camera Shake\Scripts\CameraShaker.cs" Line="6" Column="10" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

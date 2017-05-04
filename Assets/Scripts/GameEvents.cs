@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using EZCameraShake;
 
 public class GameEvents : MonoBehaviour {
 
@@ -15,12 +16,14 @@ public class GameEvents : MonoBehaviour {
 	public AudioSource bgm;
 	public AudioClip remix;
 	public AudioClip explosion;
+	public AudioClip earthquake;
 
 	[Range(5,20)]
 	public int eventDuration;
 
 	public Camera camera;
 	private bool shouldRotate;
+	public int magnitude;
 	private float rotationSpeed = 36f;
 
 	private float fuse = 3;
@@ -31,6 +34,7 @@ public class GameEvents : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		light = directionalLight.GetComponent<Light> ();
+		ShakeEvent ();
 	}
 
 	// Update is called once per frame
@@ -111,6 +115,9 @@ public class GameEvents : MonoBehaviour {
 	void CancelEvents() {
 		CancelInvoke ();
 		shouldRotate = false;
+		camera.GetComponent<CameraShaker> ().enabled = false;
+		if (sfx.isPlaying)
+			sfx.Stop ();
 	}
 	// Event when receiving command !acid
 	public void StartLightEvent() {
@@ -133,11 +140,19 @@ public class GameEvents : MonoBehaviour {
 	}
 	//Event when receiving command !rotate
 	public void RotateEvent() {
-		InvokeRepeating ("RotateCamera", 0, 0.1f);
+		Invoke ("RotateCamera", 0f);
 		Invoke ("CancelEvents", eventDuration);
 	}
 	// Rotate the camera 360 once
 	void RotateCamera() {
 		shouldRotate = true;
+	}
+
+	public void ShakeEvent() {
+		camera.GetComponent<CameraShaker> ().enabled = true;
+		camera.GetComponent<CameraShaker> ().StartShake(10f,1f,1f);
+		sfx.clip = earthquake;
+		sfx.Play ();
+		Invoke ("CancelEvents", eventDuration);
 	}
 }

@@ -89,6 +89,9 @@ public class TwitchEvents : MonoBehaviour
 		case "!rotate":
 			ge.RotateEvent ();
 			break;
+		case "!shake":
+			ge.ShakeEvent ();
+			break;
 		case "!commands":
 			MessageSend ("!bomb, !kappa, !upgrademusic, !swiftrage, !acid, !rotate");
 			break;

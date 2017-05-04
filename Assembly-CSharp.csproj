@@ -47,6 +47,14 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\BombOwner.cs" />
+     <Compile Include="Assets\EZ Camera Shake\Demo\Sample Scripts\ShakeByDistance.cs" />
+     <Compile Include="Assets\EZ Camera Shake\Demo\Sample Scripts\ShakeOnKeyPress.cs" />
+     <Compile Include="Assets\EZ Camera Shake\Demo\Sample Scripts\ShakeOnTrigger.cs" />
+     <Compile Include="Assets\EZ Camera Shake\Demo\ShakeDemo.cs" />
+     <Compile Include="Assets\EZ Camera Shake\Scripts\CameraShakeInstance.cs" />
+     <Compile Include="Assets\EZ Camera Shake\Scripts\CameraShakePresets.cs" />
+     <Compile Include="Assets\EZ Camera Shake\Scripts\CameraShaker.cs" />
+     <Compile Include="Assets\EZ Camera Shake\Scripts\Utilities\CameraUtilities.cs" />
      <Compile Include="Assets\Explosion System\Demo\Script (for Demo)\ExplosionControl.cs" />
      <Compile Include="Assets\Explosion System\Scripts\GraphicExplosion.cs" />
      <Compile Include="Assets\Explosion System\Scripts\PhysicalExplosion.cs" />
