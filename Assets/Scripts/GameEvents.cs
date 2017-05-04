@@ -36,17 +36,16 @@ public class GameEvents : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (shouldRotate) {
-			// Time to travel 360 degrees = 360.0f * Time.deltaTime / eventDuration. Rotate around z-axis
 			camera.transform.Rotate(0, 0, 360.0f * Time.deltaTime / eventDuration);
 		} 
 	}
-
+	// Event when receiving command !kappa
 	public void StartKappaEvent() {
 		Vector3 origin = new Vector3 (Screen.width / 2, Screen.height + 100 ,0);
 		GameObject k = Instantiate (kappa, origin, Quaternion.identity);
 		k.transform.parent = canvas.transform;
 	}
-
+	// Event when receiving command !bomb
 	public void StartBombEvent() {
 
 		int bombs = Random.Range (1, 3);
@@ -75,12 +74,12 @@ public class GameEvents : MonoBehaviour {
 		}
 
 	}
-
+	// Bomb control for chat-placed bombs
 	void ArmBomb(GameObject bomb) {
 		Destroy (bomb, fuse+0.06f);
 		StartCoroutine(ExpireBombAfter(bomb, fuse));
 	}
-
+	// Bomb control for chat-placed bombs
 	IEnumerator ExpireBombAfter(GameObject bomb, float fuse) {
 		yield return new WaitForSeconds (fuse);
 		sfx.clip = explosion;
@@ -88,7 +87,7 @@ public class GameEvents : MonoBehaviour {
 		sfx.Play ();
 		gc.ExplodeBreakablesAtPos (bomb, 1, false);
 	}
-		
+	// Event when receiving command !upgrademusic	
 	public void UpgradeMusic() {
 		if (bgm.clip != remix) {
 			bgm.Stop ();
@@ -96,30 +95,30 @@ public class GameEvents : MonoBehaviour {
 			bgm.Play ();
 		}
 	}
-
+	// Event when receiving command !swiftrage. Starts spawning multiple emotes
 	public void StartSwiftRageEvent() {
 		InvokeRepeating ("SpawnSwiftRage", 0, 0.3f);
 		Invoke ("CancelEvents", eventDuration);
 	}
-
+	// Event when receiving command !swiftrage. Logic for spawned emotes. Position.
 	void SpawnSwiftRage() {
 		int r = Random.Range (0, Screen.width / 2);
 		Vector3 origin = new Vector3 ( (Screen.width / 4) + r , Screen.height + 100 ,0);
 		GameObject sr = Instantiate (swiftrage, origin, Quaternion.identity);
 		sr.transform.parent = canvas.transform;
 	}
-
+	// Cancel all on-going events
 	void CancelEvents() {
 		CancelInvoke ();
 		shouldRotate = false;
 	}
-
+	// Event when receiving command !acid
 	public void StartLightEvent() {
 		light.color = Color.magenta;
 		InvokeRepeating ("ChangeColor", 0, 0.3f);
 		Invoke ("CancelEvents", eventDuration);
 	}
-
+	// Swap between colors for event duration
 	void ChangeColor() {
 		if (light.color == Color.magenta)
 			light.color = Color.red;
@@ -132,28 +131,13 @@ public class GameEvents : MonoBehaviour {
 		else if (light.color == Color.yellow)
 			light.color = Color.magenta;
 	}
-
+	//Event when receiving command !rotate
 	public void RotateEvent() {
 		InvokeRepeating ("RotateCamera", 0, 0.1f);
 		Invoke ("CancelEvents", eventDuration);
 	}
-
+	// Rotate the camera 360 once
 	void RotateCamera() {
 		shouldRotate = true;
 	}
-
-	IEnumerator Rotate(float duration)
-	{
-		float startRotation = transform.eulerAngles.y;
-		float endRotation = startRotation + 360.0f;
-		float t = 0.0f;
-		while ( t  < duration )
-		{
-			t += Time.deltaTime;
-			float yRotation = Mathf.Lerp(startRotation, endRotation, t / duration) % 360.0f;
-			camera.transform.eulerAngles = new Vector3(transform.eulerAngles.x, yRotation, transform.eulerAngles.z);
-			yield return null;
-		}
-	}
-
 }

@@ -38,7 +38,7 @@ public class GridController : MonoBehaviour {
 		SetUpUnBreakables ();
 		SetUpBreakables ();
 	}
-
+	// Prevent blocks from spawning in player corners
 	bool IsPosAllowed(int x, int z) {
 		if (x == 0 && z  == 0) return false;
 		else if (x == 1 && z  == 0) return false;
@@ -55,7 +55,7 @@ public class GridController : MonoBehaviour {
 		else
 			return true;
 	}
-		
+	// randomly build a map with breakable crates	
 	void SetUpBreakables() {
 		ResetSpawnPosition ();
 		for (int z = 0; z < grid.GetLength (1); z++) {
@@ -73,7 +73,7 @@ public class GridController : MonoBehaviour {
 			spawnPosition += addingToZ;
 		} 
 	}
-
+	// place unbreakable cubes in the same pattern everytime
 	void SetUpUnBreakables() {
 		ResetSpawnPosition ();
 		for (int z = 0; z < grid.GetLength (1); z++) {
@@ -89,11 +89,11 @@ public class GridController : MonoBehaviour {
 			spawnPosition += addingToZ;
 		} 
 	}
-
+	// resetter used in setup map routines
 	void ResetSpawnPosition() {
 		spawnPosition = new Vector3(0,1,0f);
 	}
-
+	// help determine if a specific player has been killed
 	public bool PlayerDead(int player) {
 		switch (player) {
 		case 1:
@@ -109,7 +109,7 @@ public class GridController : MonoBehaviour {
 			return false;
 		}
 	}
-
+	// did a bomb hit a player
 	int PlayerHit(int x, int z) {
 		// add 0.1f to keep players in expected range 1-12, so a player cannot stand on a tile but be counted as standing 1 below it
 		if (!PlayerDead(1)) {
@@ -135,7 +135,7 @@ public class GridController : MonoBehaviour {
 		}
 		return 0;
 	}
-
+	// destroy the player we hit
 	void KillPlayer(int player) {
 		switch (player) {
 		case 1:
@@ -154,7 +154,7 @@ public class GridController : MonoBehaviour {
 			break;
 		}
 	}
-
+	// detonate a bomb and check what we hit in the grid. Kills breakables, bombs and players
     public void ExplodeBreakablesAtPos(GameObject bomb, float firePower, bool breakthrough)
     {
         int x = (int) bomb.transform.position.x;
@@ -275,7 +275,7 @@ public class GridController : MonoBehaviour {
         safeRight = true;
         safeUp = true;
     }
-
+	// We use this to prevent positions outside the map
 	public bool IsAllowedPosition(float x, float z) {
 		// Edge detection
 		return (x > 0 && x < 12) && (z > 0 && z < 12);
@@ -289,28 +289,28 @@ public class GridController : MonoBehaviour {
 			box.transform.parent = bContainer.transform;
 		}
 	}
-
+	// We use this to create graphics (bomb explosion) at a certain position
 	public void CreateExplosionAt(float x, float z) {
 		Vector3 pos = new Vector3 (x, 0, z);
 		Instantiate (explosion, pos, Quaternion.identity);
 	}
-
+	// pass the grid to other scripts
 	public GameObject[,] GetGrid() {
 		return grid;
 	}
-
+	// place a bomb as a gameobject into the grid
 	public void PlaceBombInGrid(GameObject bomb) {
 		int x = (int) bomb.transform.position.x;
 		int z = (int) bomb.transform.position.z;
 		grid [x, z] = bomb;
 	}
-
+	// when a bomb explodes remove it from the grid
 	public void RemoveBombFromGrid(float xCord, float zCord) {
 		int x = (int) xCord;
 		int z = (int) zCord;
 		grid [x, z] = null;
 	}
-
+	// find out who placed a bomb
 	GameObject GetBombOwner(GameObject b) {
 		GameObject owner = b.GetComponent<BombOwner> ().GetOwner ();
 		int player = owner.GetComponent<PlayerController> ().playerNumber;

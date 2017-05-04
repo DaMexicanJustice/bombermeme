@@ -14,9 +14,9 @@ public class PlayerController : MonoBehaviour {
 	public AudioClip pickup;
 	public AudioClip walk;
 
-    public bool breakthrough;
+    private bool breakthrough;
     public float firePower;
-    public float blockTimer;
+    private float blockTimer;
     private Vector3 boxDirection = new Vector3(0, 0, 0);
 	private float boxCooldown = 10f;
 	private float nextPlacement; 
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
 	public float moveSpeed;
 	public GameObject bombPrefab;
 	public GameObject grid;
-	public int placedBombs;
+	private int placedBombs;
 	public int fuse;
 	public int bombCount;
 	public int playerNumber;
@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
+	// Detect all input from players here: movement, planting bombs and placing boxes
 	void FixedUpdate () {
 
         if (blockTimer > 0)
@@ -144,7 +145,7 @@ public class PlayerController : MonoBehaviour {
 		Destroy (bomb, fuse+0.06f);
 		StartCoroutine(ExpireBombAfter(bomb, fuse));
 	}
-
+	// After a set fuse explode a bomb and play sound effects, hit detection and remove from grid
 	IEnumerator ExpireBombAfter(GameObject bomb, float fuse) {
 			yield return new WaitForSeconds (fuse);
 			placedBombs--;
@@ -154,7 +155,7 @@ public class PlayerController : MonoBehaviour {
 			gc.RemoveBombFromGrid (bomb.transform.position.x, bomb.transform.position.z);
 			gc.ExplodeBreakablesAtPos (bomb, firePower, breakthrough);
 	}
-
+	// When a bomb is blown up by another bomb
 	public void StartChainReaction(GameObject bomb) {
 			placedBombs--;
 			StopAllCoroutines ();
@@ -180,7 +181,7 @@ public class PlayerController : MonoBehaviour {
 	void BoxCooldown(){
 		timeStamp = Time.time + 5;
 	}
-
+	// Detect power-up pickup
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Speed Up"))
