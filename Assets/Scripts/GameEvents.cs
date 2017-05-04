@@ -22,7 +22,9 @@ public class GameEvents : MonoBehaviour {
 	public int eventDuration;
 
 	public Camera camera;
+	public CameraShaker cs;
 	private bool shouldRotate;
+	private float rotationAmount;
 	public int magnitude;
 	private float rotationSpeed = 36f;
 
@@ -34,13 +36,14 @@ public class GameEvents : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		light = directionalLight.GetComponent<Light> ();
-		ShakeEvent ();
+		cs = camera.GetComponent<CameraShaker> ();
+		StartMirrorEvent ();
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if (shouldRotate) {
-			camera.transform.Rotate(0, 0, 360.0f * Time.deltaTime / eventDuration);
+			camera.transform.Rotate(0, 0, rotationAmount * Time.deltaTime / eventDuration);
 		} 
 	}
 	// Event when receiving command !kappa
@@ -56,25 +59,25 @@ public class GameEvents : MonoBehaviour {
 
 		for (int i = 0; i < bombs; i++) {
 
-		GameObject[,] grid = gc.GetGrid ();
+			GameObject[,] grid = gc.GetGrid ();
 
-		int randX = Random.Range (0, 12);
-		int randZ = Random.Range (0, 12);
+			int randX = Random.Range (0, 12);
+			int randZ = Random.Range (0, 12);
 
-		while ( grid[randX, randZ] != null )   {
-			if (grid [randX, randZ].gameObject.tag != "Breakable" || grid [randX, randZ].gameObject.tag != "Unbreakable") {
-				randX = Random.Range (0, 12);
-				randZ = Random.Range (0, 12);
+			while ( grid[randX, randZ] != null )   {
+				if (grid [randX, randZ].gameObject.tag != "Breakable" || grid [randX, randZ].gameObject.tag != "Unbreakable") {
+					randX = Random.Range (0, 12);
+					randZ = Random.Range (0, 12);
+				}
+				Debug.Log ("Finding new position");
 			}
-			Debug.Log ("Finding new position");
-		}
-			
-		Vector3 randPos = new Vector3 (randX, 10, randZ);
 
-		GameObject b = Instantiate (bomb, randPos, Quaternion.identity);
+			Vector3 randPos = new Vector3 (randX, 10, randZ);
 
-		ArmBomb (b);
-		
+			GameObject b = Instantiate (bomb, randPos, Quaternion.identity);
+
+			ArmBomb (b);
+
 		}
 
 	}
@@ -139,20 +142,25 @@ public class GameEvents : MonoBehaviour {
 			light.color = Color.magenta;
 	}
 	//Event when receiving command !rotate
-	public void RotateEvent() {
-		Invoke ("RotateCamera", 0f);
+	public void StartRotateEvent() {
+		rotationAmount = 360.0f;
+		cs.enabled = false;
+		shouldRotate = true;
 		Invoke ("CancelEvents", eventDuration);
 	}
-	// Rotate the camera 360 once
-	void RotateCamera() {
-		shouldRotate = true;
-	}
 
-	public void ShakeEvent() {
-		camera.GetComponent<CameraShaker> ().enabled = true;
-		camera.GetComponent<CameraShaker> ().StartShake(10f,1f,1f);
+	public void StartShakeEvent() {
+		cs.enabled = true;
+		cs.StartShake(10f,1f,1f);
 		sfx.clip = earthquake;
 		sfx.Play ();
+		Invoke ("CancelEvents", eventDuration);
+	}
+
+	public void StartMirrorEvent() {
+		rotationAmount = 180.0f;
+		cs.enabled = false;
+		shouldRotate = true;
 		Invoke ("CancelEvents", eventDuration);
 	}
 }
