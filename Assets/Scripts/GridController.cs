@@ -157,8 +157,8 @@ public class GridController : MonoBehaviour {
 
     public void ExplodeBreakablesAtPos(GameObject bomb, float firePower, bool breakthrough)
     {
-        int x = (int)bomb.transform.position.x;
-        int z = (int)bomb.transform.position.z;
+        int x = (int) bomb.transform.position.x;
+        int z = (int) bomb.transform.position.z;
         for (int i = 0; i <= firePower; i++)
         {
             if (x > 0 && safeLeft == true)
@@ -178,6 +178,12 @@ public class GridController : MonoBehaviour {
 					if (PlayerHit (x - i, z) != 0) {
 						KillPlayer (PlayerHit (x - 1, z));
 					}
+
+					if (grid [x - i, z] != null && grid [x - i, z].gameObject.tag.Equals ("Bomb")) {
+						GameObject b = grid [x - i, z];
+						GameObject owner = GetBombOwner (b);
+						owner.GetComponent<PlayerController>().StartChainReaction (b);
+					} 
 				}
 
             }
@@ -201,6 +207,12 @@ public class GridController : MonoBehaviour {
 					if (PlayerHit (x + i, z) != 0) {
 						KillPlayer (PlayerHit (x + i, z));
 					}
+
+					if (grid [x + i, z] != null && grid [x + i, z].gameObject.tag.Equals ("Bomb")) {
+						GameObject b = grid [x + i, z];
+						GameObject owner = GetBombOwner (b);
+						owner.GetComponent<PlayerController>().StartChainReaction (b);
+					} 
 				}
 
             }
@@ -223,6 +235,12 @@ public class GridController : MonoBehaviour {
 					if (PlayerHit (x, z - 1) != 0) {
 						KillPlayer (PlayerHit (x, z - i));
 					}
+
+					if (grid [x, z - i] != null && grid [x, z - i].gameObject.tag.Equals ("Bomb")) {
+						GameObject b = grid [x, z - i];
+						GameObject owner = GetBombOwner (b);
+						owner.GetComponent<PlayerController>().StartChainReaction (b);
+					} 
 				}
             }
 
@@ -243,6 +261,12 @@ public class GridController : MonoBehaviour {
 					if (PlayerHit (x, z + i) != 0) {
 						KillPlayer (PlayerHit (x, z + i));
 					}
+
+					if (grid [x, z + i] != null && grid [x, z + i].gameObject.tag.Equals ("Bomb")) {
+						GameObject b = grid [x, z + i];
+						GameObject owner = GetBombOwner (b);
+						owner.GetComponent<PlayerController>().StartChainReaction (b);
+					} 
 				}
             }
         }
@@ -273,6 +297,37 @@ public class GridController : MonoBehaviour {
 
 	public GameObject[,] GetGrid() {
 		return grid;
+	}
+
+	public void PlaceBombInGrid(GameObject bomb) {
+		int x = (int) bomb.transform.position.x;
+		int z = (int) bomb.transform.position.z;
+		grid [x, z] = bomb;
+	}
+
+	public void RemoveBombFromGrid(float xCord, float zCord) {
+		int x = (int) xCord;
+		int z = (int) zCord;
+		grid [x, z] = null;
+	}
+
+	GameObject GetBombOwner(GameObject b) {
+		GameObject owner = b.GetComponent<BombOwner> ().GetOwner ();
+		int player = owner.GetComponent<PlayerController> ().playerNumber;
+		switch (player) {
+		case 1:
+			return playerOne;
+			break;
+		case 2:
+			return playerTwo;
+			break;
+		case 3:
+			return playerThree;
+			break;
+		default:
+			return null;
+			break;
+		}
 	}
 		
 }

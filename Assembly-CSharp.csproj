@@ -46,20 +46,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\BombOwner.cs" />
      <Compile Include="Assets\Explosion System\Demo\Script (for Demo)\ExplosionControl.cs" />
      <Compile Include="Assets\Explosion System\Scripts\GraphicExplosion.cs" />
      <Compile Include="Assets\Explosion System\Scripts\PhysicalExplosion.cs" />
      <Compile Include="Assets\Explosion System\Scripts\light_control.cs" />
-     <Compile Include="Assets\GameEvents.cs" />
-     <Compile Include="Assets\KappaEvent.cs" />
      <Compile Include="Assets\Scripts\BombDetect.cs" />
      <Compile Include="Assets\Scripts\BreakableScript.cs" />
+     <Compile Include="Assets\Scripts\GameEvents.cs" />
      <Compile Include="Assets\Scripts\GridController.cs" />
+     <Compile Include="Assets\Scripts\KappaEvent.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Rotate.cs" />
      <Compile Include="Assets\Scripts\RoundController.cs" />
+     <Compile Include="Assets\Scripts\SwiftRageEvent.cs" />
      <Compile Include="Assets\Scripts\TwitchEvents.cs" />
-     <Compile Include="Assets\SwiftRageEvent.cs" />
      <Compile Include="Assets\TwitchIRC\Example\Scripts\TwitchIrcExample.cs" />
      <Compile Include="Assets\TwitchIRC\Scripts\EventArguments.cs" />
      <Compile Include="Assets\TwitchIRC\Scripts\TwitchIrc.cs" />

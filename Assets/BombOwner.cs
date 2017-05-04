@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BombDetect : MonoBehaviour {
+public class BombOwner : MonoBehaviour {
 
-	private SphereCollider sc;
 	private GameObject owner;
 
 	// Use this for initialization
 	void Start () {
-		sc = GetComponent<SphereCollider> ();
-
+		
 	}
 	
 	// Update is called once per frame
@@ -18,7 +16,11 @@ public class BombDetect : MonoBehaviour {
 		
 	}
 
-	void OnTriggerExit(Collider other) {
-		sc.isTrigger = false;
+	public void SetOwner(GameObject player) {
+		owner = player;
+	}
+
+	public GameObject GetOwner() {
+		return owner;
 	}
 }

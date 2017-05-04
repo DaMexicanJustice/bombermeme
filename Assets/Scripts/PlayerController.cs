@@ -55,18 +55,10 @@ public class PlayerController : MonoBehaviour {
 
         ArmBomb (bomb);
 
-		/*
-		Måske et Array over dem alle?
-		Vector3 north = new Vector3 (roundPos.x, roundPos.y, roundPos.z+1);
-		Vector3 south = new Vector3 (roundPos.x, roundPos.y, roundPos.z-1);
-		Vector3 west = new Vector3 (roundPos.x-1, roundPos.y, roundPos.z);
-		Vector3 east = new Vector3 (roundPos.x+1, roundPos.y, roundPos.z);
+		gc.PlaceBombInGrid (bomb);
 
-		if(Physics.CheckSphere(north,1)){
-			Destroy (,4.0f);
+		bomb.GetComponent<BombOwner>().SetOwner (gameObject);
 
-		}
-		*/
 	}
 	
 	// Update is called once per frame
@@ -154,12 +146,24 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	IEnumerator ExpireBombAfter(GameObject bomb, float fuse) {
-		yield return new WaitForSeconds (fuse);
-		placedBombs--;
-		sfx.clip = explosion;
-		sfx.pitch = Random.Range (0.8f, 1.2f);
-		sfx.Play ();
-		gc.ExplodeBreakablesAtPos (bomb, firePower, breakthrough);
+			yield return new WaitForSeconds (fuse);
+			placedBombs--;
+			sfx.clip = explosion;
+			sfx.pitch = Random.Range (0.8f, 1.2f);
+			sfx.Play ();
+			gc.RemoveBombFromGrid (bomb.transform.position.x, bomb.transform.position.z);
+			gc.ExplodeBreakablesAtPos (bomb, firePower, breakthrough);
+	}
+
+	public void StartChainReaction(GameObject bomb) {
+			placedBombs--;
+			StopAllCoroutines ();
+			sfx.clip = explosion;
+			sfx.pitch = Random.Range (0.8f, 1.2f);
+			sfx.Play ();
+			gc.RemoveBombFromGrid (bomb.transform.position.x, bomb.transform.position.z);
+			gc.ExplodeBreakablesAtPos (bomb, firePower, breakthrough);
+			Destroy (bomb);
 	}
 
 	 // Places a box prefab based off of the player object's position and rotation
