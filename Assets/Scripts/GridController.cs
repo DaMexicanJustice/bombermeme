@@ -19,6 +19,10 @@ public class GridController : MonoBehaviour {
 	public GameObject playerTwo;
 	public GameObject playerThree;
 
+	public Vector3 playerOneStart;
+	public Vector3 playerTwoStart;
+	public Vector3 playerThreeStart;
+
     bool safeLeft = true;
     bool safeRight = true;
     bool safeUp = true;
@@ -34,10 +38,24 @@ public class GridController : MonoBehaviour {
 	//12,13  13,13  13,12
 	GameObject[,] grid = new GameObject[13,13];
 
-	void Start() {
+	void Awake(){
+		playerOneStart = playerOne.transform.position;
+		playerTwoStart = playerTwo.transform.position;
+		playerThreeStart = playerThree.transform.position;
+	}
+
+	public void Start() {
 		SetUpUnBreakables ();
 		SetUpBreakables ();
+
+		playerOne.SetActive (true);
+		playerTwo.SetActive (true);
+		playerThree.SetActive (true);
+		playerOne.transform.position = playerOneStart;
+		playerTwo.transform.position = playerTwoStart;
+		playerThree.transform.position = playerThreeStart;
 	}
+		
 	// Prevent blocks from spawning in player corners
 	bool IsPosAllowed(int x, int z) {
 		if (x == 0 && z  == 0) return false;
@@ -97,13 +115,13 @@ public class GridController : MonoBehaviour {
 	public bool PlayerDead(int player) {
 		switch (player) {
 		case 1:
-			return playerOne == null;
+			return playerOne.activeSelf;
 			break;
 		case 2:
-			return playerTwo == null;
+			return playerTwo.activeSelf;
 			break;
 		case 3:
-			return playerThree == null;
+			return playerThree.activeSelf;
 			break;
 		default:
 			return false;
@@ -112,21 +130,21 @@ public class GridController : MonoBehaviour {
 	// did a bomb hit a player
 	int PlayerHit(int x, int z) {
 		// add 0.1f to keep players in expected range 1-12, so a player cannot stand on a tile but be counted as standing 1 below it
-		if (!PlayerDead(1)) {
+		if (PlayerDead(1)) {
 			int p1X = (int)(playerOne.transform.position.x + 0.1f);
 			int p1Z = (int)(playerOne.transform.position.z + 0.1f);
 			if (p1X == x && p1Z == z) {
 				return 1;
 			}
 		}
-		if (!PlayerDead(2)) {
+		if (PlayerDead(2)) {
 			int p2X = (int) (playerTwo.transform.position.x+0.1f);
 			int p2Z = (int) (playerTwo.transform.position.z+0.1f);
 			if (p2X == x && p2Z == z) {
 				return 2;
 			}
 		}
-		if (!PlayerDead(3)) {
+		if (PlayerDead(3)) {
 			int p3X = (int) (playerThree.transform.position.x+0.1f);
 			int p3Z = (int) (playerThree.transform.position.z+0.1f);
 			if (p3X == x && p3Z == z) {
@@ -139,15 +157,16 @@ public class GridController : MonoBehaviour {
 	void KillPlayer(int player) {
 		switch (player) {
 		case 1:
-			Destroy (playerOne);
+			playerOne.SetActive (false);
 			rc.RemovePlayer ();
 			break;
 		case 2:
-			Destroy (playerTwo);
+			Debug.Log("checking to see if playerTwo was hit, is it true? " + playerTwo.activeSelf);
+			playerTwo.SetActive (false);
 			rc.RemovePlayer ();
 			break;
 		case 3:
-			Destroy (playerThree);
+			playerThree.SetActive (false);
 			rc.RemovePlayer ();
 			break;
 		default:

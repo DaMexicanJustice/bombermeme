@@ -17,7 +17,8 @@ public class RoundController : MonoBehaviour {
 		totalPlayer = 3;
 		playerCount = totalPlayer;
 		playerScores = new int[playerCount];
-		roundCount = 1;
+		roundCount = 2;
+		gc = gc.GetComponent<GridController>();
 	}
 
 	// Update is called once per frame
@@ -29,7 +30,7 @@ public class RoundController : MonoBehaviour {
 		playerCount--;
 		if (playerCount == 1) {
 			for (int i = 0; i <= totalPlayer; i++) {
-				if (!gc.PlayerDead (1+i)) {
+				if (gc.PlayerDead (1+i)) {
 					playerScores[i]++;
 					Debug.Log ("player: " + (i+1) + " gets a point and has: " + playerScores[i]);
 					RoundEnd ();
@@ -44,7 +45,10 @@ public class RoundController : MonoBehaviour {
 		if (roundCount == 0) {
 			Mathf.Max (playerScores);
 			Debug.Log("Highest Value is: "+ Mathf.Max (playerScores));
+			//Go to POST-Game GUI which tells us who's the winner and how much each player got for points:
 		}else{
+			gc.Start ();
+			playerCount = 3;
 			//Reset Game
 		}
 
