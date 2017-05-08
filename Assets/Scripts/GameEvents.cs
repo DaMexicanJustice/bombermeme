@@ -6,6 +6,8 @@ using EZCameraShake;
 
 public class GameEvents : MonoBehaviour {
 
+
+
 	public GameObject canvas;
 	public GameObject kappa;
 	public GameObject swiftrage;
@@ -17,6 +19,7 @@ public class GameEvents : MonoBehaviour {
 	public AudioClip remix;
 	public AudioClip explosion;
 	public AudioClip earthquake;
+	public AudioClip cheer;
 
 	[Range(5,20)]
 	public int eventDuration;
@@ -161,5 +164,10 @@ public class GameEvents : MonoBehaviour {
 		cs.enabled = false;
 		shouldRotate = true;
 		Invoke ("CancelEvents", eventDuration);
+	}
+
+	public void StartCheerEvent() {
+		sfx.clip = cheer;
+		sfx.Play ();
 	}
 }

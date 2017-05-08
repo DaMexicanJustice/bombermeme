@@ -12,6 +12,7 @@ public class GridController : MonoBehaviour {
 	private Vector3 addingToX = new Vector3(1,0,0);
 	private Vector3 addingToZ = new Vector3(-13,0,1);
 
+
 	public GameObject bContainer;
 	public GameObject ubContainer;
 
@@ -19,12 +20,16 @@ public class GridController : MonoBehaviour {
 	public GameObject playerTwo;
 	public GameObject playerThree;
 
-    bool safeLeft = true;
-    bool safeRight = true;
-    bool safeUp = true;
-    bool safeDown = true;
+	public Vector3 playerOneStart;
+	public Vector3 playerTwoStart;
+	public Vector3 playerThreeStart;
 
-    [Range(2,8)]
+	bool safeLeft = true;
+	bool safeRight = true;
+	bool safeUp = true;
+	bool safeDown = true;
+
+	[Range(2,8)]
 	public int boxLimiter;
 
 	//Disallowed spawn positions:
@@ -34,10 +39,30 @@ public class GridController : MonoBehaviour {
 	//12,13  13,13  13,12
 	GameObject[,] grid = new GameObject[13,13];
 
-	void Start() {
+	void Awake(){
+		playerOneStart = playerOne.transform.position;
+		playerTwoStart = playerTwo.transform.position;
+		playerThreeStart = playerThree.transform.position;
+	}
+
+	public void Start() {
+
+		DestroyAllObjects ();
 		SetUpUnBreakables ();
 		SetUpBreakables ();
+
+		playerOne.SetActive (true);
+		playerTwo.SetActive (true);
+		playerThree.SetActive (true);
+		playerOne.GetComponent<PlayerController> ().ResetPowerUps();
+		playerTwo.GetComponent<PlayerController> ().ResetPowerUps();
+		playerThree.GetComponent<PlayerController> ().ResetPowerUps();
+
+		playerOne.transform.position = playerOneStart;
+		playerTwo.transform.position = playerTwoStart;
+		playerThree.transform.position = playerThreeStart;
 	}
+
 	// Prevent blocks from spawning in player corners
 	bool IsPosAllowed(int x, int z) {
 		if (x == 0 && z  == 0) return false;
@@ -62,7 +87,7 @@ public class GridController : MonoBehaviour {
 			for (int x = 0; x < grid.GetLength (0); x++) {
 				if (grid [x, z] == null && Random.Range(0,boxLimiter) == 1) {
 					if (IsPosAllowed (x, z)) {
-						
+
 						GameObject b = (GameObject)Instantiate (breakable, spawnPosition, Quaternion.identity);
 						grid [x, z] = b;
 						b.transform.parent = bContainer.transform;
@@ -97,13 +122,13 @@ public class GridController : MonoBehaviour {
 	public bool PlayerDead(int player) {
 		switch (player) {
 		case 1:
-			return playerOne == null;
+			return playerOne.activeSelf;
 			break;
 		case 2:
-			return playerTwo == null;
+			return playerTwo.activeSelf;
 			break;
 		case 3:
-			return playerThree == null;
+			return playerThree.activeSelf;
 			break;
 		default:
 			return false;
@@ -112,21 +137,21 @@ public class GridController : MonoBehaviour {
 	// did a bomb hit a player
 	int PlayerHit(int x, int z) {
 		// add 0.1f to keep players in expected range 1-12, so a player cannot stand on a tile but be counted as standing 1 below it
-		if (!PlayerDead(1)) {
+		if (PlayerDead(1)) {
 			int p1X = (int)(playerOne.transform.position.x + 0.1f);
 			int p1Z = (int)(playerOne.transform.position.z + 0.1f);
 			if (p1X == x && p1Z == z) {
 				return 1;
 			}
 		}
-		if (!PlayerDead(2)) {
+		if (PlayerDead(2)) {
 			int p2X = (int) (playerTwo.transform.position.x+0.1f);
 			int p2Z = (int) (playerTwo.transform.position.z+0.1f);
 			if (p2X == x && p2Z == z) {
 				return 2;
 			}
 		}
-		if (!PlayerDead(3)) {
+		if (PlayerDead(3)) {
 			int p3X = (int) (playerThree.transform.position.x+0.1f);
 			int p3Z = (int) (playerThree.transform.position.z+0.1f);
 			if (p3X == x && p3Z == z) {
@@ -139,15 +164,16 @@ public class GridController : MonoBehaviour {
 	void KillPlayer(int player) {
 		switch (player) {
 		case 1:
-			Destroy (playerOne);
+			playerOne.SetActive (false);
 			rc.RemovePlayer ();
 			break;
 		case 2:
-			Destroy (playerTwo);
+			Debug.Log("checking to see if playerTwo was hit, is it true? " + playerTwo.activeSelf);
+			playerTwo.SetActive (false);
 			rc.RemovePlayer ();
 			break;
 		case 3:
-			Destroy (playerThree);
+			playerThree.SetActive (false);
 			rc.RemovePlayer ();
 			break;
 		default:
@@ -155,16 +181,16 @@ public class GridController : MonoBehaviour {
 		}
 	}
 	// detonate a bomb and check what we hit in the grid. Kills breakables, bombs and players
-    public void ExplodeBreakablesAtPos(GameObject bomb, float firePower, bool breakthrough)
-    {
-        int x = (int) bomb.transform.position.x;
-        int z = (int) bomb.transform.position.z;
-        for (int i = 0; i <= firePower; i++)
-        {
-            if (x > 0 && safeLeft == true)
-            {
+	public void ExplodeBreakablesAtPos(GameObject bomb, float firePower, bool breakthrough)
+	{
+		int x = (int) bomb.transform.position.x;
+		int z = (int) bomb.transform.position.z;
+		for (int i = 0; i <= firePower; i++)
+		{
+			if (x > 0 && safeLeft == true)
+			{
 				if (x - i >= 0) {
-				
+
 					CreateExplosionAt (x - i, z);
 					if (grid [x - i, z] != null && grid [x - i, z].gameObject.tag == "Breakable") {
 						Destroy (grid [x - i, z]);
@@ -186,12 +212,12 @@ public class GridController : MonoBehaviour {
 					} 
 				}
 
-            }
+			}
 
-            if (x < 12 && safeRight == true)
-            {
+			if (x < 12 && safeRight == true)
+			{
 				if (x + i <= 12) {
-				
+
 					CreateExplosionAt (x + i, z);
 					if (grid [x + i, z] != null && grid [x + i, z].gameObject.tag == "Breakable") {
 
@@ -215,15 +241,15 @@ public class GridController : MonoBehaviour {
 					} 
 				}
 
-            }
+			}
 
-            if (z > 0 && safeUp == true)
-            {
+			if (z > 0 && safeUp == true)
+			{
 				if (z - i >= 0) {
-				
+
 					CreateExplosionAt (x, z - i);
 					if (grid [x, z - i] != null && grid [x, z - i].gameObject.tag == "Breakable") {
-					
+
 						Destroy (grid [x, z - i]);
 						if (breakthrough == false) {
 							safeUp = false;
@@ -242,12 +268,12 @@ public class GridController : MonoBehaviour {
 						owner.GetComponent<PlayerController>().StartChainReaction (b);
 					} 
 				}
-            }
+			}
 
-            if (z < 12 && safeDown == true)
-            {
+			if (z < 12 && safeDown == true)
+			{
 				if (z + i <= 12) {
-				
+
 					CreateExplosionAt (x, z + i);
 					if (grid [x, z + i] != null && grid [x, z + i].gameObject.tag == "Breakable") {
 						Destroy (grid [x, z + i]);
@@ -268,13 +294,13 @@ public class GridController : MonoBehaviour {
 						owner.GetComponent<PlayerController>().StartChainReaction (b);
 					} 
 				}
-            }
-        }
-        safeDown = true;
-        safeLeft = true;
-        safeRight = true;
-        safeUp = true;
-    }
+			}
+		}
+		safeDown = true;
+		safeLeft = true;
+		safeRight = true;
+		safeUp = true;
+	}
 	// We use this to prevent positions outside the map
 	public bool IsAllowedPosition(float x, float z) {
 		// Edge detection
@@ -329,5 +355,26 @@ public class GridController : MonoBehaviour {
 			break;
 		}
 	}
-		
+
+	void DestroyAllObjects()
+	{
+		GameObject[] breakables = GameObject.FindGameObjectsWithTag ("Breakable");
+		GameObject[] bombs = GameObject.FindGameObjectsWithTag ("Bomb");
+		GameObject[] powerUps = GameObject.FindGameObjectsWithTag ("Power Up");
+
+		for (int i = 0; i < breakables.Length; i++) {
+			GameObject br = breakables [i];
+			br.GetComponent<BreakableScript> ().ChangeSpawnable (false);
+			Destroy (br);
+		}
+		for( int i = 0; i < bombs.Length; i++){
+			Destroy (bombs [i]);
+		}
+		for (int i = 0; i < powerUps.Length; i++) {
+			Destroy (powerUps[i]);
+		}
+	}
+
+
+
 }

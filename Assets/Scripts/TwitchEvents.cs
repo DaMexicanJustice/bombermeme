@@ -95,8 +95,11 @@ public class TwitchEvents : MonoBehaviour
 		case "!mirror":
 			ge.StartMirrorEvent ();
 			break;
+		case "!cheer":
+			ge.StartCheerEvent ();
+			break;
 		case "!commands":
-			MessageSend ("!bomb, !kappa, !upgrademusic, !swiftrage, !acid, !rotate");
+			MessageSend ("!bomb, !kappa, !upgrademusic, !swiftrage, !acid, !rotate, !mirror, !shake, !cheer");
 			break;
 		default:
 			break;
