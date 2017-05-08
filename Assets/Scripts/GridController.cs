@@ -54,6 +54,10 @@ public class GridController : MonoBehaviour {
 		playerOne.SetActive (true);
 		playerTwo.SetActive (true);
 		playerThree.SetActive (true);
+		playerOne.GetComponent<PlayerController> ().ResetPowerUps();
+		playerTwo.GetComponent<PlayerController> ().ResetPowerUps();
+		playerThree.GetComponent<PlayerController> ().ResetPowerUps();
+
 		playerOne.transform.position = playerOneStart;
 		playerTwo.transform.position = playerTwoStart;
 		playerThree.transform.position = playerThreeStart;
@@ -369,5 +373,8 @@ public class GridController : MonoBehaviour {
 		for (int i = 0; i < powerUps.Length; i++) {
 			Destroy (powerUps[i]);
 		}
-	}	
+	}
+
+
+
 }
