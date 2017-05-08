@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class RoundController : MonoBehaviour {
 
-	private int roundCount;
+	public int roundCount;
 	private int totalPlayer;
-	private int playerCount;
+	public int playerCount;
 	private string Winner;
 	public int[] playerScores;
 	public GridController gc;
@@ -17,12 +17,8 @@ public class RoundController : MonoBehaviour {
 		totalPlayer = 3;
 		playerCount = totalPlayer;
 		playerScores = new int[playerCount];
-		roundCount = 2;
+		roundCount = 5;
 		gc = gc.GetComponent<GridController>();
-	}
-
-	// Update is called once per frame
-	void Update () {
 	}
 
 	public void RemovePlayer(){
@@ -51,8 +47,5 @@ public class RoundController : MonoBehaviour {
 			playerCount = 3;
 			//Reset Game
 		}
-
-
 	}
-
 }

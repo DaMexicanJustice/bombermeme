@@ -12,6 +12,7 @@ public class GridController : MonoBehaviour {
 	private Vector3 addingToX = new Vector3(1,0,0);
 	private Vector3 addingToZ = new Vector3(-13,0,1);
 
+
 	public GameObject bContainer;
 	public GameObject ubContainer;
 
@@ -23,12 +24,12 @@ public class GridController : MonoBehaviour {
 	public Vector3 playerTwoStart;
 	public Vector3 playerThreeStart;
 
-    bool safeLeft = true;
-    bool safeRight = true;
-    bool safeUp = true;
-    bool safeDown = true;
+	bool safeLeft = true;
+	bool safeRight = true;
+	bool safeUp = true;
+	bool safeDown = true;
 
-    [Range(2,8)]
+	[Range(2,8)]
 	public int boxLimiter;
 
 	//Disallowed spawn positions:
@@ -45,6 +46,8 @@ public class GridController : MonoBehaviour {
 	}
 
 	public void Start() {
+
+		DestroyAllObjects ();
 		SetUpUnBreakables ();
 		SetUpBreakables ();
 
@@ -55,7 +58,7 @@ public class GridController : MonoBehaviour {
 		playerTwo.transform.position = playerTwoStart;
 		playerThree.transform.position = playerThreeStart;
 	}
-		
+
 	// Prevent blocks from spawning in player corners
 	bool IsPosAllowed(int x, int z) {
 		if (x == 0 && z  == 0) return false;
@@ -80,7 +83,7 @@ public class GridController : MonoBehaviour {
 			for (int x = 0; x < grid.GetLength (0); x++) {
 				if (grid [x, z] == null && Random.Range(0,boxLimiter) == 1) {
 					if (IsPosAllowed (x, z)) {
-						
+
 						GameObject b = (GameObject)Instantiate (breakable, spawnPosition, Quaternion.identity);
 						grid [x, z] = b;
 						b.transform.parent = bContainer.transform;
@@ -174,16 +177,16 @@ public class GridController : MonoBehaviour {
 		}
 	}
 	// detonate a bomb and check what we hit in the grid. Kills breakables, bombs and players
-    public void ExplodeBreakablesAtPos(GameObject bomb, float firePower, bool breakthrough)
-    {
-        int x = (int) bomb.transform.position.x;
-        int z = (int) bomb.transform.position.z;
-        for (int i = 0; i <= firePower; i++)
-        {
-            if (x > 0 && safeLeft == true)
-            {
+	public void ExplodeBreakablesAtPos(GameObject bomb, float firePower, bool breakthrough)
+	{
+		int x = (int) bomb.transform.position.x;
+		int z = (int) bomb.transform.position.z;
+		for (int i = 0; i <= firePower; i++)
+		{
+			if (x > 0 && safeLeft == true)
+			{
 				if (x - i >= 0) {
-				
+
 					CreateExplosionAt (x - i, z);
 					if (grid [x - i, z] != null && grid [x - i, z].gameObject.tag == "Breakable") {
 						Destroy (grid [x - i, z]);
@@ -205,12 +208,12 @@ public class GridController : MonoBehaviour {
 					} 
 				}
 
-            }
+			}
 
-            if (x < 12 && safeRight == true)
-            {
+			if (x < 12 && safeRight == true)
+			{
 				if (x + i <= 12) {
-				
+
 					CreateExplosionAt (x + i, z);
 					if (grid [x + i, z] != null && grid [x + i, z].gameObject.tag == "Breakable") {
 
@@ -234,15 +237,15 @@ public class GridController : MonoBehaviour {
 					} 
 				}
 
-            }
+			}
 
-            if (z > 0 && safeUp == true)
-            {
+			if (z > 0 && safeUp == true)
+			{
 				if (z - i >= 0) {
-				
+
 					CreateExplosionAt (x, z - i);
 					if (grid [x, z - i] != null && grid [x, z - i].gameObject.tag == "Breakable") {
-					
+
 						Destroy (grid [x, z - i]);
 						if (breakthrough == false) {
 							safeUp = false;
@@ -261,12 +264,12 @@ public class GridController : MonoBehaviour {
 						owner.GetComponent<PlayerController>().StartChainReaction (b);
 					} 
 				}
-            }
+			}
 
-            if (z < 12 && safeDown == true)
-            {
+			if (z < 12 && safeDown == true)
+			{
 				if (z + i <= 12) {
-				
+
 					CreateExplosionAt (x, z + i);
 					if (grid [x, z + i] != null && grid [x, z + i].gameObject.tag == "Breakable") {
 						Destroy (grid [x, z + i]);
@@ -287,13 +290,13 @@ public class GridController : MonoBehaviour {
 						owner.GetComponent<PlayerController>().StartChainReaction (b);
 					} 
 				}
-            }
-        }
-        safeDown = true;
-        safeLeft = true;
-        safeRight = true;
-        safeUp = true;
-    }
+			}
+		}
+		safeDown = true;
+		safeLeft = true;
+		safeRight = true;
+		safeUp = true;
+	}
 	// We use this to prevent positions outside the map
 	public bool IsAllowedPosition(float x, float z) {
 		// Edge detection
@@ -348,5 +351,21 @@ public class GridController : MonoBehaviour {
 			break;
 		}
 	}
-		
+
+	void DestroyAllObjects()
+	{
+		GameObject[] breakables = GameObject.FindGameObjectsWithTag ("Breakable");
+		GameObject[] bombs = GameObject.FindGameObjectsWithTag ("Bomb");
+
+		Debug.Log (breakables);
+
+		for (int i = 0; i < breakables.Length; i++) {
+			GameObject br = breakables [i];
+			br.GetComponent<BreakableScript> ().ChangeSpawnable (false);
+			Destroy (br);
+		}
+		for( int i = 0; i < bombs.Length; i++){
+			Destroy (bombs [i]);
+		}
+	}	
 }
