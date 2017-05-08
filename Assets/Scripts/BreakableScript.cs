@@ -10,11 +10,14 @@ public class BreakableScript : MonoBehaviour {
 
 	public GameObject[] powerUps;
 	private GameObject powerup;
+	public GameObject puContainerPrefab;
+	public GameObject puContainerContainer;
 
 	private void Start()
 	{
 		isQuitting = false;
 		isSpawnable = true;
+		puContainerContainer = GameObject.FindGameObjectWithTag ("PuContainerContainer");
 	}
 
 	private void Update()
@@ -35,7 +38,10 @@ public class BreakableScript : MonoBehaviour {
 			if (Random.Range(0, 2) == 1)
 			{
 				//powerup =  powerUps[Random.Range(0, powerUps.Length)];
-				Instantiate(powerUps[Random.Range(0, powerUps.Length)], transform.position, Quaternion.identity);
+				GameObject pu = Instantiate(powerUps[Random.Range(0, powerUps.Length)], transform.position, Quaternion.identity);
+				GameObject puContainer = Instantiate (puContainerPrefab, transform.position, Quaternion.identity);
+				puContainer.transform.parent = puContainerContainer.transform;
+				pu.transform.parent = puContainer.transform;
 			}
 		}
 
