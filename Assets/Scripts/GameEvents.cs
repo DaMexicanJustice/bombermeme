@@ -37,7 +37,6 @@ public class GameEvents : MonoBehaviour {
 	void Start () {
 		light = directionalLight.GetComponent<Light> ();
 		cs = camera.GetComponent<CameraShaker> ();
-		StartMirrorEvent ();
 	}
 
 	// Update is called once per frame
