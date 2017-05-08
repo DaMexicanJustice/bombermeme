@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GridController : MonoBehaviour {
 
-	public RoundController rc;
+	public GameObject roundMaster;
+	private RoundController rc;
 	public GameObject explosion;
 	public GameObject unbreakable;
 	public GameObject breakable;
@@ -46,6 +47,9 @@ public class GridController : MonoBehaviour {
 	}
 
 	public void Start() {
+
+		rc = roundMaster.GetComponent<RoundController> ();
+		rc.ChooseTrack ();
 
 		DestroyAllObjects ();
 		SetUpUnBreakables ();
@@ -168,7 +172,6 @@ public class GridController : MonoBehaviour {
 			rc.RemovePlayer ();
 			break;
 		case 2:
-			Debug.Log("checking to see if playerTwo was hit, is it true? " + playerTwo.activeSelf);
 			playerTwo.SetActive (false);
 			rc.RemovePlayer ();
 			break;

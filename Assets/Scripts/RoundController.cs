@@ -5,19 +5,20 @@ using UnityEngine;
 public class RoundController : MonoBehaviour {
 
 	public int roundCount;
-	private int totalPlayer;
-	public int playerCount;
+	public int totalPlayer;
+	private int playerCount;
 	private string Winner;
 	public int[] playerScores;
 	public GridController gc;
 
+	public AudioSource bgm;
+	public AudioClip[] clips;
+
 
 	// Use this for initialization
 	void Start () {
-		totalPlayer = 3;
-		playerCount = totalPlayer;
+		SetupGame ();
 		playerScores = new int[playerCount];
-		roundCount = 5;
 		gc = gc.GetComponent<GridController>();
 	}
 
@@ -44,8 +45,18 @@ public class RoundController : MonoBehaviour {
 			//Go to POST-Game GUI which tells us who's the winner and how much each player got for points:
 		}else{
 			gc.Start ();
-			playerCount = 3;
+			ChooseTrack ();
 			//Reset Game
+			SetupGame();
 		}
+	}
+
+	public void ChooseTrack() {
+		bgm.clip = clips [Random.Range (0, clips.Length - 1)];
+		bgm.Play ();
+	}
+
+	void SetupGame() {
+		playerCount = totalPlayer;
 	}
 }
