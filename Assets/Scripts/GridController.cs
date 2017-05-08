@@ -356,8 +356,7 @@ public class GridController : MonoBehaviour {
 	{
 		GameObject[] breakables = GameObject.FindGameObjectsWithTag ("Breakable");
 		GameObject[] bombs = GameObject.FindGameObjectsWithTag ("Bomb");
-
-		Debug.Log (breakables);
+		GameObject[] powerUps = GameObject.FindGameObjectsWithTag ("Power Up");
 
 		for (int i = 0; i < breakables.Length; i++) {
 			GameObject br = breakables [i];
@@ -366,6 +365,9 @@ public class GridController : MonoBehaviour {
 		}
 		for( int i = 0; i < bombs.Length; i++){
 			Destroy (bombs [i]);
+		}
+		for (int i = 0; i < powerUps.Length; i++) {
+			Destroy (powerUps[i]);
 		}
 	}	
 }
