@@ -52,8 +52,10 @@ public class RoundController : MonoBehaviour {
 	}
 
 	public void ChooseTrack() {
-		bgm.clip = clips [Random.Range (0, clips.Length - 1)];
-		bgm.Play ();
+		if (clips.Length > 0) {
+			bgm.clip = clips [Random.Range (0, clips.Length - 1)];
+			bgm.Play ();
+		}
 	}
 
 	void SetupGame() {
