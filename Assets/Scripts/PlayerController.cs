@@ -241,5 +241,12 @@ public class PlayerController : MonoBehaviour {
 			sfx.Play ();
 		}
 	}
+	public void ResetPowerUps(){
+
+		firePower = 1;
+		bombCount = 1;
+		breakthrough = false;
+		moveSpeed = 200;
+	}
 
 }
