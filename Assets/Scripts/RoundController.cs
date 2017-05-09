@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEditor.Animations;
 
 public class RoundController : MonoBehaviour {
 
@@ -13,6 +15,8 @@ public class RoundController : MonoBehaviour {
 
 	public AudioSource bgm;
 	public AudioClip[] clips;
+
+	public Image[] images;
 
 
 	// Use this for initialization
@@ -40,9 +44,9 @@ public class RoundController : MonoBehaviour {
 
 		roundCount--;
 		if (roundCount == 0) {
-			Mathf.Max (playerScores);
-			Debug.Log("Highest Value is: "+ Mathf.Max (playerScores));
+			Debug.Log("Highest Value is: "+ Mathf.Max(playerScores));
 			//Go to POST-Game GUI which tells us who's the winner and how much each player got for points:
+			images[DetermineWinner()].gameObject.SetActive(true);
 		}else{
 			gc.Start ();
 			ChooseTrack ();
@@ -60,5 +64,17 @@ public class RoundController : MonoBehaviour {
 
 	void SetupGame() {
 		playerCount = totalPlayer;
+	}
+
+	int DetermineWinner() {
+		int p = 0;
+		int tmp = 0;
+		for (int i = 0; i < totalPlayer; i++) {
+			if (playerScores [i] > tmp)
+				tmp = playerScores [i];
+				p = i;
+		}
+		Debug.Log ("The winner is: " + p);
+		return p;
 	}
 }
