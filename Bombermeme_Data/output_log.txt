@@ -1,69 +1,27 @@
 Initialize engine version: 5.5.1f1 (88d00a7498cd)
 GfxDevice: creating device client; threaded=1
+d3d11: failed to create D3D11 device (0x80070057)
+GfxDevice: creating device client; threaded=1
 Direct3D:
-    Version:  Direct3D 11.0 [level 11.0]
-    Renderer: NVIDIA GeForce GTX 550 Ti (ID=0x1244)
+    Version:  Direct3D 9.0c [nvd3dum.dll 21.21.13.7254]
+    Renderer: NVIDIA GeForce GTX 1060 3GB
     Vendor:   NVIDIA
-    VRAM:     978 MB
-    Driver:   21.21.13.7866
+    VRAM:     2986 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=0 INTZ=1 NULL=1 RESZ=0 SlowINTZ=0 ATOC=1 BC4=1 BC5=1
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
-Loading C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-- Completed reload, in  0.032 seconds
-Platform assembly: C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\System.dll (this message is harmless)
-desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
+Platform assembly: C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+- Completed reload, in  0.024 seconds
+Platform assembly: C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\OPinator\Desktop\Unity\bombermeme\Bombermeme_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-<RI> Initialized touch support.
-UnloadTime: 1.136135 ms
-Connected to channel
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Setting up 1 worker threads for Enlighten.
-  Thread -> id: 1b10 -> priority: 1 
-Your host is tmi.twitch.tv
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-This server is rather new
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-:-
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-:-
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-You are in a maze of twisty passages, all alike.
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-:>
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-USER JOINED: cassandraangel
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-= #cassandraangel :cassandraangel
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-#cassandraangel :End of /NAMES list
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
