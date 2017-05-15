@@ -34,7 +34,7 @@ public class GridController : MonoBehaviour {
 	public int boxLimiter;
 
 	//Disallowed spawn positions:
-	// 0,0   1,0    1,1     
+	//0,0    1,0    1,1     
 	//0,12   0,13   1,13
 	//12,0   13,0   13,1
 	//12,13  13,13  13,12
@@ -45,12 +45,10 @@ public class GridController : MonoBehaviour {
 		playerTwoStart = playerTwo.transform.position;
 		playerThreeStart = playerThree.transform.position;
 	}
-
 	public void Start() {
 
 		rc = roundMaster.GetComponent<RoundController> ();
 		rc.ChooseTrack ();
-
 		DestroyAllObjects ();
 		SetUpUnBreakables ();
 		SetUpBreakables ();
@@ -377,7 +375,4 @@ public class GridController : MonoBehaviour {
 			Destroy (powerUps[i]);
 		}
 	}
-
-
-
 }

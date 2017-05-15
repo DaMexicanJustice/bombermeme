@@ -23,11 +23,13 @@ public class RoundController : MonoBehaviour {
 	void Start () {
 		SetupGame ();
 		playerScores = new int[playerCount];
+		playerScores [0] = 0;
+		playerScores [1] = 0;
+		playerScores [2] = 0;
 		gc = gc.GetComponent<GridController>();
 	}
 
 	public void RemovePlayer(){
-
 		playerCount--;
 		if (playerCount == 1) {
 			for (int i = 0; i <= totalPlayer; i++) {
@@ -69,12 +71,14 @@ public class RoundController : MonoBehaviour {
 	int DetermineWinner() {
 		int p = 0;
 		int tmp = 0;
-		for (int i = 0; i < totalPlayer; i++) {
-			if (playerScores [i] > tmp)
+		for (int i = 0; i < playerScores.Length; i++) {
+			if (playerScores [i] > tmp) {
 				tmp = playerScores [i];
 				p = i;
+			}
 		}
-		Debug.Log ("The winner is: " + p);
+		Debug.Log ("The winner is player " + (p+1));
+		Debug.Log ("Player 1 has:" + playerScores[0] + " Player 2 has: " + playerScores[1] + " Player 3 has: " + playerScores[2]);
 		return p;
 	}
 }
