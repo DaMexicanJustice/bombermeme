@@ -170,4 +170,22 @@ public class GameEvents : MonoBehaviour {
 		sfx.clip = cheer;
 		sfx.Play ();
 	}
+
+	public void StartSlowEvent(){
+
+		if (Time.timeScale == 1f) {
+			Time.timeScale = 0.5f;
+		} else {
+			Time.timeScale = 1f;
+		}
+ 	}
+
+	public void StartSpeedEvent(){
+
+		if (Time.timeScale == 1f) {
+			Time.timeScale = 2f;
+		} else {
+			Time.timeScale = 1f;
+		}
+	}
 }

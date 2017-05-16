@@ -98,8 +98,14 @@ public class TwitchEvents : MonoBehaviour
 		case "!cheer":
 			ge.StartCheerEvent ();
 			break;
+		case "!slow":
+			ge.StartSlowEvent();
+			break;
+		case "!speed":
+			ge.StartSpeedEvent();
+			break;
 		case "!commands":
-			MessageSend ("!bomb, !kappa, !upgrademusic, !swiftrage, !acid, !rotate, !mirror, !shake, !cheer");
+			MessageSend ("!bomb, !kappa, !upgrademusic, !swiftrage, !acid, !rotate, !mirror, !shake, !cheer, !speed, !slow");
 			break;
 		default:
 			break;
