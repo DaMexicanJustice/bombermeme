@@ -27,7 +27,7 @@ public class PointAnimation : MonoBehaviour {
 		float distCovered = (Time.time - startTime) * speed;
 		float fracJourney = distCovered / journeyLength ;
 		transform.position = Vector3.Lerp (startMarker.position, endMarker.position, fracJourney);
-		Debug.Log ("Travel is done");
+
 		if (!doneEnlargening) {
 			transform.localScale += new Vector3 (0.05f, 0.05f, 0.05f);
 			if (transform.localScale.x >= 1f) {
