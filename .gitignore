@@ -1,0 +1,41 @@
+# =============== #
+# Unity generated #
+# =============== #
+Bombermeme/[Tt]emp/
+Bombermeme/[Oo]bj/
+Bombermeme/[Bb]uilds/
+Bombermeme/[Ll]ibrary/
+Bombermeme/[Ll]ibrary_ANDROID/
+Bombermeme/[Ll]ibrary_PC/
+Bombermeme/[Ll]ibrary_IOS/
+Bombermeme/sysinfo.txt
+Bombermeme/UnityVS/
+Bombermeme/UnityVS.meta
+Bombermeme/LightingData*
+Bombermeme/ReflectionProbe*
+Bombermeme/Assets/Scenes/Personal Scenes*
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+Bombermeme/[Ee]xported[Oo]bj/
+Bombermeme/*.userprefs
+Bombermeme/*.csproj
+Bombermeme/*.pidb
+Bombermeme/*.suo
+Bombermeme/*.sln*
+Bombermeme/*.user
+Bombermeme/*.unityproj
+Bombermeme/*.booproj
+
+# ============
+# OS generated
+# ============
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Thumbs.db.meta
