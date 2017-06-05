@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class PointAnimation : MonoBehaviour {
 
-	public Text p1Score;
-	public Text p2Score;
-	public Text p3Score;
-
 	private Transform startMarker;
 	private Transform endMarker;
 	[Range(1,100)]
@@ -23,7 +19,6 @@ public class PointAnimation : MonoBehaviour {
 		doneEnlargening = false;
 		startTime = Time.time;
 		startMarker = transform;
-		endMarker = p1Score.transform;
 		journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
 	}
 	
@@ -44,5 +39,12 @@ public class PointAnimation : MonoBehaviour {
 				Destroy (gameObject);
 			}
 		}
+	}
+
+	public void SetRecipient(int recipient) {
+		// Handle 0, 1, 2 values
+		int target = recipient + 1;
+		// Travel towards:
+		endMarker = GameObject.Find ("p"+target+" score").transform;
 	}
 }

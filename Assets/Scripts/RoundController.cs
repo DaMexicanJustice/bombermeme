@@ -18,6 +18,13 @@ public class RoundController : MonoBehaviour {
 
 	public Image[] images;
 
+	public Text p1Score;
+	public Text p2Score;
+	public Text p3Score;
+
+	public Image goldenBomb;
+	public Canvas canvas;
+
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +43,7 @@ public class RoundController : MonoBehaviour {
 			for (int i = 0; i <= totalPlayer; i++) {
 				if (gc.PlayerDead (1+i)) {
 					playerScores[i]++;
+					SpawnGoldenBomb (i);
 					Debug.Log ("player: " + (i+1) + " gets a point and has: " + playerScores[i]);
 					RoundEnd ();
 					break;
@@ -53,9 +61,21 @@ public class RoundController : MonoBehaviour {
 
 		else{	
 			round++;
+			UpdateScoreText ();
 			Invoke ("SetupGame",3f);
-
 		}
+	}
+
+	void SpawnGoldenBomb(int recipient) {
+		Image b = Instantiate (goldenBomb, new Vector3(Screen.width / 2, Screen.height / 2, 0), Quaternion.identity);
+		b.GetComponent<PointAnimation> ().SetRecipient (recipient);
+		b.transform.SetParent (canvas.transform);
+	}
+
+	void UpdateScoreText() {
+		p1Score.text = "" + playerScores [0];
+		p2Score.text = "" + playerScores [1];
+		p3Score.text = "" + playerScores [2];
 	}
 
 	public void ChooseTrack() {
