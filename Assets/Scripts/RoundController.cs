@@ -35,6 +35,17 @@ public class RoundController : MonoBehaviour {
 		playerScores [1] = 0;
 		playerScores [2] = 0;
 		gc = gc.GetComponent<GridController>();
+		CheckForRoundCountAndSet ();
+	}
+
+	void CheckForRoundCountAndSet() {
+		GameObject nav = GameObject.Find("Navigator");
+		if (nav != null) {
+			firstTo = (int) nav.GetComponent<UIController> ().finalPoints;
+		} else {
+			firstTo = 3;
+		}
+		Debug.Log (nav);
 	}
 
 	public void RemovePlayer(){

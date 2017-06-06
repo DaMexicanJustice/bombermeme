@@ -19,63 +19,9 @@ Platform assembly: C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\
 Loading C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
 Loading C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-- Completed reload, in  0.036 seconds
+- Completed reload, in  0.034 seconds
 Platform assembly: C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Guna\Desktop\Unity games\bombermeme\Bombermeme_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-<RI> Initialized touch support.
-UnloadTime: 1.205241 ms
-Setting up 1 worker threads for Enlighten.
-  Thread -> id: 2da8 -> priority: 1 
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 3.123432 ms
-
-Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 972.
-Total: 0.534370 ms (FindLiveObjects: 0.060210 ms CreateObjectMapping: 0.028394 ms MarkObjects: 0.417369 ms  DeleteObjects: 0.017447 ms)
-
-Connected to channel
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Your host is tmi.twitch.tv
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-This server is rather new
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-:-
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-:-
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-You are in a maze of twisty passages, all alike.
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-:>
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-USER JOINED: cassandraangel
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-player: 1 gets a point and has: 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-player: 1 gets a point and has: 2
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-player: 3 gets a point and has: 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
