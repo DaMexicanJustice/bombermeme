@@ -33,12 +33,12 @@ public class GameEvents : MonoBehaviour {
 
 	private float fuse = 3;
 
-	public GameObject directionalLight;
+	public GameObject spotlight;
 	private Light light;
 
 	// Use this for initialization
 	void Start () {
-		light = directionalLight.GetComponent<Light> ();
+		light = spotlight.GetComponent<Light> ();
 		cs = camera.GetComponent<CameraShaker> ();
 	}
 
